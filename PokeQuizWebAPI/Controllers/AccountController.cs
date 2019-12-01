@@ -105,7 +105,7 @@ namespace PokeQuizWebAPI.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new DapperIdentityUser { UserName = model.Email, Email = model.Email };
+                var user = new DapperIdentityUser { UserName = model.Userrname, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
