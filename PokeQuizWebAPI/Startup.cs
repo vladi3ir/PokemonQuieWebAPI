@@ -1,22 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Identity.Dapper;
+using Identity.Dapper.Entities;
+using Identity.Dapper.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Identity.Dapper.SqlServer.Connections;
+using Identity.Dapper.SqlServer.Models;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PokeQuizWebAPI.AccountService;
 
 namespace PokeQuizWebAPI
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+
+
+            builder.AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -24,6 +34,23 @@ namespace PokeQuizWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.ConfigureDapperConnectionProvider<SqlServerConnectionProvider>(
+               Configuration.GetSection("ConnectionStrings"))
+               .ConfigureDapperIdentityCryptography(Configuration.GetSection("DapperIdentityCryptography"))
+               .ConfigureDapperIdentityOptions(new DapperIdentityOptions { UseTransactionalBehavior = false }); //Change to True to use Transactions in all operations
+
+            services.AddIdentity<DapperIdentityUser, DapperIdentityRole>(x =>
+            {
+                x.Password.RequireDigit = false;
+                x.Password.RequiredLength = 1;
+                x.Password.RequireLowercase = false;
+                x.Password.RequireNonAlphanumeric = false;
+                x.Password.RequireUppercase = false;
+            })
+                   //.AddDapperIdentityFor<PostgreSqlConfiguration>()
+                   .AddDapperIdentityFor<SqlServerConfiguration>()
+                   //.AddDapperIdentityFor<MySqlConfiguration>()
+                   .AddDefaultTokenProviders();
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -31,7 +58,8 @@ namespace PokeQuizWebAPI
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
+            services.AddTransient<IEmailSender, AuthMessageSender>();
+            services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -52,6 +80,7 @@ namespace PokeQuizWebAPI
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
