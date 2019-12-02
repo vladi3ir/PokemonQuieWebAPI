@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewData["Title"] = "SubmitPokemonId";
+}
+
+<h1>Enter a pokemon ID to find more info about it</h1>
+
+<form asp-controller="Quiz" asp-action="GetPokemonDetails">
+    <label>Enter Pokemon ID</label>
+    <input type="text" name="id" />
+    <button>Get</button>
+</form>

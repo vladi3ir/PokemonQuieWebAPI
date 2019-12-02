@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PokeQuizWebAPI.AccountService;
+using PokeQuizWebAPI.PokemonApiCall;
+using PokeQuizWebAPI.PokemonServices;
 
 namespace PokeQuizWebAPI
 {
@@ -60,6 +62,8 @@ namespace PokeQuizWebAPI
 
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddSingleton<IPokemonService, PokemonService>();
+            services.AddSingleton<IPokemonApi, PokemonApi>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
