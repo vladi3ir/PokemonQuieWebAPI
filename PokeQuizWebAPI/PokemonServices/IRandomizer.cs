@@ -9,7 +9,7 @@ namespace PokeQuizWebAPI.PokemonServices
     {
         List<int> RandomizeAditionalPokemon(int answer , int amountOfPossibleAnswers);
 
-        List<int> RandomizeListOfAnsweres(int quizLength);
+        Stack<int> RandomizeListOfAnsweres(int quizLength);
         
 
     }

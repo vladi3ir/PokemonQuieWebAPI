@@ -66,6 +66,7 @@ namespace PokeQuizWebAPI
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddSingleton<IPokemonService, PokemonService>();
             services.AddSingleton<IPokemonApi, PokemonApi>();
+            services.AddSingleton<IRandomizer, Randomizer>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
