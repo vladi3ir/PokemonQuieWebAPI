@@ -24,6 +24,7 @@ namespace PokeQuizWebAPI
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables()
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
 
@@ -38,6 +39,7 @@ namespace PokeQuizWebAPI
         {
             services.ConfigureDapperConnectionProvider<SqlServerConnectionProvider>(
                Configuration.GetSection("ConnectionStrings"))
+                .
                .ConfigureDapperIdentityCryptography(Configuration.GetSection("DapperIdentityCryptography"))
                .ConfigureDapperIdentityOptions(new DapperIdentityOptions { UseTransactionalBehavior = false }); //Change to True to use Transactions in all operations
 
@@ -64,6 +66,7 @@ namespace PokeQuizWebAPI
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddSingleton<IPokemonService, PokemonService>();
             services.AddSingleton<IPokemonApi, PokemonApi>();
+            services.AddSingleton<IRandomizer, Randomizer>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
