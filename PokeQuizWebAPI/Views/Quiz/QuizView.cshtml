@@ -2,13 +2,21 @@
 @{
     ViewData["Title"] = "QuizView";
 }
+<style>
 
-<h1>QuizView</h1>
+    img {
+        filter: brightness(0%);
+    }
+</style>
+<h1>Who's That Pokemon</h1>
 
+<img src="@Model.CorrectPokemon.PokemonImageUrl"
+     width="50%" height="50%" alt="filter applied" />
 
-
-@*<body>
-    <img src="@$https://pokeapi.co/api/v2/pokemon-form/{@Model.AllCorrectAnswers[1]}"
-         width="100%" height="auto" alt="filter applied" />
-</body>
-</html>*@
+<form asp-controller="Quiz" asp-action="QuizView" method="post">
+    <input type="radio" />@Model.WrongAnswer1.PokemonName <br />
+    <input type="radio">@Model.WrongAnswer2.PokemonName <br />
+    <input type="radio">@Model.WrongAnswer3.PokemonName <br />
+    <input type="radio">@Model.CorrectPokemon.PokemonName <br />
+    <input type="submit" value="Submit" class="btn btn-primary btn-block" />
+  </form>
