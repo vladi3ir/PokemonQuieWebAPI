@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 namespace PokeQuizWebAPI.Models.QuizModels
 {
     public class QuizViewModel
-    { 
-    //    public List<int> AllCorrectAnswers { get; set; }
-    //    public List<int> AllInCorrectAnswers { get; set; }
-    //    public string PokemonImageUrl { get; set; }
-
-    //    public IEnumerable<PokemonResponse> { get; set; }
-
+    {
+        public PokemonResponse CorrectPokemon { get; set; }
+        public PokemonResponse WrongAnswer1 { get; set; }
+        public PokemonResponse WrongAnswer2 { get; set; }
+        public PokemonResponse WrongAnswer3 { get; set; }
+        public Stack<int> PokemonAnswers = new Stack<int>();
     }
 }
+
