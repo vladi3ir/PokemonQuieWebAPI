@@ -1,0 +1,12 @@
+CREATE TABLE UserScoreData(
+Username VARCHAR(250),
+Score INT,
+QuizLength25 INT,
+QuizLength50 INT,
+QuizLength100 INT,
+CorrectAmount INT,
+AverageScore FLOAT,
+LastScoreSession INT,
+WhichQuizTaken VARCHAR (250),
+AttemptsPerQuiz INT,
+);
