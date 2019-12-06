@@ -3,6 +3,14 @@
 @{
     ViewData["Title"] = "GetPokemonDetails";
 }
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="site.css">
+</head>
 
 <h1>GetPokemonDetails</h1>
 
@@ -38,19 +46,11 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-<head>
-    <style>
-      
-        img {
-            filter: brightness(0%);
-            }
-    </style>
-</head>
+
 
 <body>
-     <img src="@Model.PokemonImageUrl"
+    <img src="@Model.PokemonImageUrl"
          width="100%" height="auto" alt="filter applied" />
 </body>
 </html>
 
- 

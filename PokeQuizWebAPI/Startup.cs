@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PokeQuizWebAPI.AccountService;
 using PokeQuizWebAPI.PokemonApiCall;
 using PokeQuizWebAPI.PokemonServices;
+using System;
 
 namespace PokeQuizWebAPI
 {
@@ -42,6 +43,17 @@ namespace PokeQuizWebAPI
                Configuration.GetSection("ConnectionStrings"))
                .ConfigureDapperIdentityCryptography(Configuration.GetSection("DapperIdentityCryptography"))
                .ConfigureDapperIdentityOptions(new DapperIdentityOptions { UseTransactionalBehavior = false }); //Change to True to use Transactions in all operations
+
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                // Make the session cookie essential
+                options.Cookie.IsEssential = true;
+            });
 
             services.AddIdentity<DapperIdentityUser, DapperIdentityRole>(x =>
             {
@@ -87,6 +99,8 @@ namespace PokeQuizWebAPI
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
+            app.UseSession();
+
 
             app.UseMvc(routes =>
             {
