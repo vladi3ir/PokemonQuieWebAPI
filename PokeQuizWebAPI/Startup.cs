@@ -14,7 +14,6 @@ using Microsoft.Extensions.DependencyInjection;
 using PokeQuizWebAPI.AccountService;
 using PokeQuizWebAPI.PokemonApiCall;
 using PokeQuizWebAPI.PokemonServices;
-using System;
 
 namespace PokeQuizWebAPI
 {
@@ -44,17 +43,6 @@ namespace PokeQuizWebAPI
                .ConfigureDapperIdentityCryptography(Configuration.GetSection("DapperIdentityCryptography"))
                .ConfigureDapperIdentityOptions(new DapperIdentityOptions { UseTransactionalBehavior = false }); //Change to True to use Transactions in all operations
 
-            services.AddDistributedMemoryCache();
-
-            services.AddSession(options =>
-            {
-                // Set a short timeout for easy testing.
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
-                options.Cookie.HttpOnly = true;
-                // Make the session cookie essential
-                options.Cookie.IsEssential = true;
-            });
-
             services.AddIdentity<DapperIdentityUser, DapperIdentityRole>(x =>
             {
                 x.Password.RequireDigit = false;
@@ -74,10 +62,16 @@ namespace PokeQuizWebAPI
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddSession(options =>
+                {
+                    options.Cookie.HttpOnly = true;
+                    options.Cookie.IsEssential = true;
+                });
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddSingleton<IPokemonService, PokemonService>();
             services.AddSingleton<IPokemonApi, PokemonApi>();
+            services.AddSingleton<IRandomizer, Randomizer>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -100,7 +94,6 @@ namespace PokeQuizWebAPI
             app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseSession();
-
 
             app.UseMvc(routes =>
             {
