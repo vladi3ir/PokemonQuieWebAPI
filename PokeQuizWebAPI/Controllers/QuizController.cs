@@ -92,5 +92,8 @@ namespace PokeQuizWebAPI.Controllers
             var result = await _pokemonService.MapPokemonInfo(id);
             return View(result);
         }
+
+
+         
     }
 }
