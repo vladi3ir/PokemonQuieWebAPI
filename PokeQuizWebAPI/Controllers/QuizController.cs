@@ -35,6 +35,9 @@ namespace PokeQuizWebAPI.Controllers
 
         public IActionResult SelectQuizDifficulty()
         {
+            var correctAnswers = 0;
+            _session.SetInt32("amountCorrect", correctAnswers);
+
             var viewModel = new QuizDifficultyViewModel();
             return View(viewModel);
         }
@@ -72,15 +75,28 @@ namespace PokeQuizWebAPI.Controllers
             
         }
 
-        public async Task<ActionResult> CheckAnswer(string PokemonName)
+        public async Task<ActionResult> CheckAnswer(string pokemonName)
         {
-            
+            var totalCorrectAnswers = _session.GetInt32("amountCorrect").GetValueOrDefault();
+            if (pokemonName == _session.GetString("pokemonAnswer"))
+            {
 
+                totalCorrectAnswers++;
+                _session.SetInt32("amountCorrect", totalCorrectAnswers);
+            }
+            QuizViewModel quizModel = await RunQuiz();
+            if (quizModel.PokemonAnswers.Count == 0)
+            {
+                return View("QuizResults");
+            }
 
+            return View("QuizView", quizModel);
+        }
 
-
+        private async Task<QuizViewModel> RunQuiz()
+        {
             var quizModel = new QuizViewModel();
-          
+
             var testString = _session.GetString("pokemonStack");
 
             if (testString != null)
@@ -96,15 +112,10 @@ namespace PokeQuizWebAPI.Controllers
             quizModel.PokemonAnswers.Pop();
             var storeStackIntoString = JsonConvert.SerializeObject(quizModel.PokemonAnswers);
             _session.SetString("pokemonStack", storeStackIntoString);
-
-            if (quizModel.PokemonAnswers.Count == 0)
-            {
-                return View("QuizResults");
-            }
-
-            return View("QuizView", quizModel);
+            _session.SetString("pokemonAnswer", quizModel.CorrectPokemon.PokemonName);
+            return quizModel;
         }
-        
+
         public IActionResult QuizResults()
         {
             return View();

@@ -13,6 +13,7 @@ namespace PokeQuizWebAPI.Models.QuizModels
         public PokemonResponse WrongAnswer2 { get; set; }
         public PokemonResponse WrongAnswer3 { get; set; }
         public Stack<int> PokemonAnswers = new Stack<int>();
+        public PokemonResponse SelectedAnswer { get; set; }
     }
 }
 
