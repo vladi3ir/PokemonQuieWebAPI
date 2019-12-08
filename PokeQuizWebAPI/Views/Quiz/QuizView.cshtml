@@ -2,16 +2,12 @@
 @{
     ViewData["Title"] = "QuizView";
 }
-<style>
-
-    img {
-        filter: brightness(0%);
-    }
-</style>
+ 
 <h1>Who's That Pokemon</h1>
 
 <img src="@Model.CorrectPokemon.PokemonImageUrl"
      width="50%" height="50%" alt="filter applied" />
+
 
 <form asp-controller="Quiz" asp-action="CheckAnswer" >
     <input type="radio" name="pokemonName" value="@Model.WrongAnswer1.PokemonName"/>@Model.WrongAnswer1.PokemonName <br />
@@ -19,4 +15,5 @@
     <input type="radio" name="pokemonName" value="@Model.WrongAnswer3.PokemonName">@Model.WrongAnswer3.PokemonName <br />
     <input type="radio" name="pokemonName" value="@Model.CorrectPokemon.PokemonName">@Model.CorrectPokemon.PokemonName <br />
     <input type="submit" name="Submit" value="pokemonName" class="btn btn-primary btn-block" />
+
 </form>
