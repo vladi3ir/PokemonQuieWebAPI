@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PokeQuizWebAPI.Models.PokemonViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,7 +11,8 @@ namespace PokeQuizWebAPI.PokemonServices
         List<int> RandomizeAditionalPokemon(int answer , int amountOfPossibleAnswers);
 
         Stack<int> RandomizeListOfAnsweres(int quizLength);
-        
+
+        List<PokemonResponse> RandomizePossibleAnswerOrder(List<PokemonResponse> pokeAnswers);
 
     }
 }

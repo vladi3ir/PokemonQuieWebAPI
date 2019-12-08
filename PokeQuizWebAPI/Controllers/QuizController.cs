@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PokeQuizWebAPI.CalculationsService;
+using PokeQuizWebAPI.Models.PokemonViewModels;
 using PokeQuizWebAPI.Models.QuizModels;
 using PokeQuizWebAPI.PokemonServices;
 
@@ -69,6 +70,16 @@ namespace PokeQuizWebAPI.Controllers
             var storeStackIntoString = JsonConvert.SerializeObject(quizModel.PokemonAnswers);
             _session.SetString("pokemonStack", storeStackIntoString);
             _session.SetString("pokemonAnswer", quizModel.CorrectPokemon.PokemonName);
+
+            //randomize answers
+           
+            quizModel.QuizAnswers.Add(quizModel.CorrectPokemon);
+            quizModel.QuizAnswers.Add(quizModel.WrongAnswer1);
+            quizModel.QuizAnswers.Add(quizModel.WrongAnswer2);
+            quizModel.QuizAnswers.Add(quizModel.WrongAnswer3);
+
+            quizModel.QuizAnswers = _randomizer.RandomizePossibleAnswerOrder(quizModel.QuizAnswers);
+
             if (quizModel.PokemonAnswers.Count == 0)
             {
                 return View("QuizResults");
@@ -88,6 +99,13 @@ namespace PokeQuizWebAPI.Controllers
                 _session.SetInt32("amountCorrect", totalCorrectAnswers);
             }
             QuizViewModel quizModel = await RunQuiz();
+
+            quizModel.QuizAnswers.Add(quizModel.CorrectPokemon);
+            quizModel.QuizAnswers.Add(quizModel.WrongAnswer1);
+            quizModel.QuizAnswers.Add(quizModel.WrongAnswer2);
+            quizModel.QuizAnswers.Add(quizModel.WrongAnswer3);
+
+            quizModel.QuizAnswers = _randomizer.RandomizePossibleAnswerOrder(quizModel.QuizAnswers);
             if (quizModel.PokemonAnswers.Count == 0)
             {
                 var quizResults = new QuizAttemptResultsViewModel();
@@ -118,6 +136,7 @@ namespace PokeQuizWebAPI.Controllers
             quizModel.WrongAnswer2 = await _pokemonService.MapPokemonInfo(listOfWrongAnswers[1]);
             quizModel.WrongAnswer3 = await _pokemonService.MapPokemonInfo(listOfWrongAnswers[2]);
             quizModel.PokemonAnswers.Pop();
+            var pokeAnswerSelection = new List<PokemonResponse>();
             var storeStackIntoString = JsonConvert.SerializeObject(quizModel.PokemonAnswers);
             _session.SetString("pokemonStack", storeStackIntoString);
             _session.SetString("pokemonAnswer", quizModel.CorrectPokemon.PokemonName);
