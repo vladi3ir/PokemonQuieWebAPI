@@ -14,6 +14,7 @@ namespace PokeQuizWebAPI.PokemonServices
 
         //public QuizResultsViewModel CreatePokemonUserData(QuizResultsViewModel model)
         //{
+
         //    var dalModel = new QuizViewModel();
         //    dalModel. = model.UserSelectedPlanet;
         //    _starwarsStore.InsertNewPlanet(dalModel);
@@ -33,6 +34,9 @@ namespace PokeQuizWebAPI.PokemonServices
         //    StarwarsViewModel.Planet = planets;
 
         //    return StarwarsViewModel;
+
+
+
         //}
     }
 

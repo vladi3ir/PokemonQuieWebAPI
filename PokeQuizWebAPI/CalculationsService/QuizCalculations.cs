@@ -9,7 +9,7 @@ namespace PokeQuizWebAPI.CalculationsService
     {
         public double CalculateCurrentAttemptScore(int questionsCorrect, int questionsAttempted)
         {
-            var percentScoreThisAttempt = 0.0;
+            var percentScoreThisAttempt = 0;
 
             percentScoreThisAttempt = (questionsCorrect / questionsAttempted) * 100;
 
