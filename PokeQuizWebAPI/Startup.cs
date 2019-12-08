@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PokeQuizWebAPI.AccountService;
 using PokeQuizWebAPI.PokemonApiCall;
 using PokeQuizWebAPI.PokemonServices;
+using PokeQuizWebAPI.CalculationsService;
 
 namespace PokeQuizWebAPI
 {
@@ -72,6 +73,7 @@ namespace PokeQuizWebAPI
             services.AddSingleton<IPokemonService, PokemonService>();
             services.AddSingleton<IPokemonApi, PokemonApi>();
             services.AddSingleton<IRandomizer, Randomizer>();
+            services.AddSingleton<IQuizCalculations, QuizCalculations>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
