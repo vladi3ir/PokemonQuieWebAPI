@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace PokeQuizWebAPI.PokemonDAL
+﻿namespace PokeQuizWebAPI.PokemonDAL
 {
     public interface IPokemonUserSQLStore
     {
+        bool UpdateUserStatusAtQuizEnd(PokemonDALModel dalModel);
+
     }
 
 
 
-    public interface ICustomerStore
-    {
-          
 
-    }   
 }

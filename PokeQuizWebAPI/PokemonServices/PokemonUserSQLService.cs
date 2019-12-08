@@ -1,6 +1,4 @@
-﻿using PokeQuizWebAPI.Models.QuizModels;
-using PokeQuizWebAPI.PokemonDAL;
-using System.Collections.Generic;
+﻿using PokeQuizWebAPI.PokemonDAL;
 
 namespace PokeQuizWebAPI.PokemonServices
 {
@@ -14,30 +12,28 @@ namespace PokeQuizWebAPI.PokemonServices
         }
 
 
-        public QuizResultsViewModel CreatePokemonUserData(QuizResultsViewModel model)
-        {
+        //public QuizResultsViewModel CreatePokemonUserData(QuizResultsViewModel model)
+        //{
+        //    var dalModel = new QuizViewModel();
+        //    dalModel. = model.UserSelectedPlanet;
+        //    _starwarsStore.InsertNewPlanet(dalModel);
 
+        //    //MAPPING
+        //    var dalProducts = _starwarsStore.SelectAllPlanets();
+        //    var planets = new List<Planet>();
 
-            var dalModel = new QuizViewModel();
-            dalModel. = model.UserSelectedPlanet;
-            _starwarsStore.InsertNewPlanet(dalModel);
+        //    foreach (var dalProduct in dalProducts)
+        //    {
+        //        var product = new Planet();
+        //        product.Name = dalProduct.LinkToURL;
+        //        planets.Add(product);
+        //    }
 
-            //MAPPING
-            var dalProducts = _starwarsStore.SelectAllPlanets();
-            var planets = new List<Planet>();
+        //    var StarwarsViewModel = new StarwarsViewModel();
+        //    StarwarsViewModel.Planet = planets;
 
-            foreach (var dalProduct in dalProducts)
-            {
-                var product = new Planet();
-                product.Name = dalProduct.LinkToURL;
-                planets.Add(product);
-            }
-
-            var StarwarsViewModel = new StarwarsViewModel();
-            StarwarsViewModel.Planet = planets;
-
-            return StarwarsViewModel;
-        }
+        //    return StarwarsViewModel;
+        //}
     }
 
 
