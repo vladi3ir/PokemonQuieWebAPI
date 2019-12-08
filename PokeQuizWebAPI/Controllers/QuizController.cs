@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using PokeQuizWebAPI.CalculationsService;
 using PokeQuizWebAPI.Models.QuizModels;
 using PokeQuizWebAPI.PokemonServices;
 
@@ -15,17 +16,18 @@ namespace PokeQuizWebAPI.Controllers
         private readonly IPokemonService _pokemonService;
         private readonly IRandomizer _randomizer;
         private readonly ISession _session;
-        //private Stack<int> PokemonAnswers = new Stack<int>();
-
+        private readonly IQuizCalculations _quizCalulations;
 
         public QuizController
         (IPokemonService pokemonService, 
          IRandomizer randomizer, 
-         IHttpContextAccessor httpContextAccessor)
+         IHttpContextAccessor httpContextAccessor,
+         IQuizCalculations quizCalculations)
         {
             _pokemonService = pokemonService;
             _randomizer = randomizer;
             _session = httpContextAccessor.HttpContext.Session;
+            _quizCalulations = quizCalculations;
         }
 
         public IActionResult Index()
@@ -44,6 +46,7 @@ namespace PokeQuizWebAPI.Controllers
 
         public async Task<IActionResult> QuizView(QuizDifficultyViewModel userEnteredQuestion) //feeding into eds
         {
+            _session.SetInt32("questionsAttempted", userEnteredQuestion.SelectedNumberOfQuestions);
             userEnteredQuestion.SelectedNumberOfQuestions = userEnteredQuestion.SelectedNumberOfQuestions + 1;
             var quizModel = new QuizViewModel();
             if (quizModel.PokemonAnswers.Count == 0)
@@ -87,7 +90,12 @@ namespace PokeQuizWebAPI.Controllers
             QuizViewModel quizModel = await RunQuiz();
             if (quizModel.PokemonAnswers.Count == 0)
             {
-                return View("QuizResults");
+                var quizResults = new QuizAttemptResultsViewModel();
+                quizResults.AmountCorrect = _session.GetInt32("amountCorrect").GetValueOrDefault();
+                quizResults.QuestionsAttempted = _session.GetInt32("questionsAttempted").GetValueOrDefault();
+                quizResults.ScoreThisAttempt = _quizCalulations.CalculateCurrentAttemptScore(quizResults.AmountCorrect, quizResults.QuestionsAttempted);
+                //quizResults.AmountCorrect = 
+                return View("QuizResults",quizResults);
             }
 
             return View("QuizView", quizModel);
@@ -118,7 +126,8 @@ namespace PokeQuizWebAPI.Controllers
 
         public IActionResult QuizResults()
         {
-            return View();
+            var quizResultModel = new QuizAttemptResultsViewModel();
+            return View(quizResultModel);
         }
 
         public IActionResult SubmitPokemonId()
