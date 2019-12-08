@@ -14,7 +14,10 @@ using Microsoft.Extensions.DependencyInjection;
 using PokeQuizWebAPI.AccountService;
 using PokeQuizWebAPI.PokemonApiCall;
 using PokeQuizWebAPI.PokemonServices;
+using PokeQuizWebAPI.PokemonDAL;
+using System.IO;
 using PokeQuizWebAPI.CalculationsService;
+
 
 namespace PokeQuizWebAPI
 {
@@ -66,17 +69,32 @@ namespace PokeQuizWebAPI
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            var config = new ConfigurationBuilder()
+           .SetBasePath(Directory.GetCurrentDirectory())
+           .AddJsonFile("appsettings.json", false, true)
+           .AddEnvironmentVariables()
+           .Build();
+            var appConfig = new PokemonConfig();
+
+            config.Bind("PokemonConfig", appConfig);
+            services.AddSingleton(appConfig);
+
             services.AddSession(options =>
                 {
                     options.Cookie.HttpOnly = true;
                     options.Cookie.IsEssential = true;
                 });
+
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddSingleton<IPokemonService, PokemonService>();
             services.AddSingleton<IPokemonApi, PokemonApi>();
             services.AddSingleton<IRandomizer, Randomizer>();
+
+            services.AddSingleton<IPokemonUserSQLStore, PokemonUserSQLStore>();
+
             services.AddSingleton<IQuizCalculations, QuizCalculations>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

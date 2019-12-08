@@ -59,7 +59,8 @@ body {
 /* Pokemon 
 -------------------------------------------------- */
 
-Silhouette
-{
+img{
     filter: brightness(0%);
 }
+
+ 
