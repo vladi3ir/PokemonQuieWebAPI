@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-<<<<<<< HEAD
-=======
 using PokeQuizWebAPI.CalculationsService;
 using PokeQuizWebAPI.Models.PokemonViewModels;
->>>>>>> 84b3bdba24706ded4e4bfae3b2c354e3d170b9e7
 using PokeQuizWebAPI.Models.QuizModels;
 using PokeQuizWebAPI.PokemonServices;
 using System.Collections.Generic;
@@ -18,6 +15,7 @@ namespace PokeQuizWebAPI.Controllers
         private readonly IPokemonService _pokemonService;
         private readonly IRandomizer _randomizer;
         private readonly ISession _session;
+        private readonly IQuizCalculations _quizCalulations;
         //private Stack<int> PokemonAnswers = new Stack<int>();
 
 
@@ -64,14 +62,13 @@ namespace PokeQuizWebAPI.Controllers
             quizModel.PokemonAnswers.Pop();
             var storeStackIntoString = JsonConvert.SerializeObject(quizModel.PokemonAnswers);
             _session.SetString("pokemonStack", storeStackIntoString);
-<<<<<<< HEAD
             return View(quizModel);
 
-=======
+
             _session.SetString("pokemonAnswer", quizModel.CorrectPokemon.PokemonName);
 
             //randomize answers
-           
+
             quizModel.QuizAnswers.Add(quizModel.CorrectPokemon);
             quizModel.QuizAnswers.Add(quizModel.WrongAnswer1);
             quizModel.QuizAnswers.Add(quizModel.WrongAnswer2);
@@ -83,9 +80,9 @@ namespace PokeQuizWebAPI.Controllers
             {
                 return View("QuizResults");
             }
-            
+
             return View(quizModel);
-            
+
         }
 
         public async Task<ActionResult> CheckAnswer(string pokemonName)
@@ -112,7 +109,7 @@ namespace PokeQuizWebAPI.Controllers
                 quizResults.QuestionsAttempted = _session.GetInt32("questionsAttempted").GetValueOrDefault();
                 quizResults.ScoreThisAttempt = _quizCalulations.CalculateCurrentAttemptScore(quizResults.AmountCorrect, quizResults.QuestionsAttempted);
                 //quizResults.AmountCorrect = 
-                return View("QuizResults",quizResults);
+                return View("QuizResults", quizResults);
             }
 
             return View("QuizView", quizModel);
@@ -146,7 +143,6 @@ namespace PokeQuizWebAPI.Controllers
         {
             var quizResultModel = new QuizAttemptResultsViewModel();
             return View(quizResultModel);
->>>>>>> 84b3bdba24706ded4e4bfae3b2c354e3d170b9e7
         }
         //public async Task<IActionResult> CreateQuiz(QuizDifficultyViewModel userEnteredQuestion) //feeding into eds
         //{
