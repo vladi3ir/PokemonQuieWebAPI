@@ -2,13 +2,16 @@
 @{
     ViewData["Title"] = "QuizView";
 }
- 
+<style>
+
+    img {
+        filter: brightness(0%);
+    }
+</style>
 <h1>Who's That Pokemon</h1>
 
 <img src="@Model.CorrectPokemon.PokemonImageUrl"
      width="50%" height="50%" alt="filter applied" />
-
-
 
 <form asp-controller="Quiz" asp-action="CheckAnswer">
     @foreach (var pokeName in Model.QuizAnswers)
@@ -17,7 +20,3 @@
     }
 <input type="submit" value="Submit" class="btn btn-primary btn-block" />
 </form>
-=======
-
-</form>
-
