@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PokeQuizWebAPI.CalculationsService;
 using PokeQuizWebAPI.Models.PokemonViewModels;
 using PokeQuizWebAPI.Models.QuizModels;
 using PokeQuizWebAPI.PokemonServices;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PokeQuizWebAPI.Controllers
 {
@@ -18,17 +16,17 @@ namespace PokeQuizWebAPI.Controllers
         private readonly IRandomizer _randomizer;
         private readonly ISession _session;
         private readonly IQuizCalculations _quizCalulations;
+        //private Stack<int> PokemonAnswers = new Stack<int>();
+
 
         public QuizController
-        (IPokemonService pokemonService, 
-         IRandomizer randomizer, 
-         IHttpContextAccessor httpContextAccessor,
-         IQuizCalculations quizCalculations)
+        (IPokemonService pokemonService,
+         IRandomizer randomizer,
+         IHttpContextAccessor httpContextAccessor)
         {
             _pokemonService = pokemonService;
             _randomizer = randomizer;
             _session = httpContextAccessor.HttpContext.Session;
-            _quizCalulations = quizCalculations;
         }
 
         public IActionResult Index()
@@ -38,17 +36,12 @@ namespace PokeQuizWebAPI.Controllers
 
         public IActionResult SelectQuizDifficulty()
         {
-            var correctAnswers = 0;
-            _session.SetInt32("amountCorrect", correctAnswers);
-
             var viewModel = new QuizDifficultyViewModel();
             return View(viewModel);
         }
 
         public async Task<IActionResult> QuizView(QuizDifficultyViewModel userEnteredQuestion) //feeding into eds
         {
-            _session.SetInt32("questionsAttempted", userEnteredQuestion.SelectedNumberOfQuestions);
-            userEnteredQuestion.SelectedNumberOfQuestions = userEnteredQuestion.SelectedNumberOfQuestions + 1;
             var quizModel = new QuizViewModel();
             if (quizModel.PokemonAnswers.Count == 0)
             {
@@ -69,10 +62,13 @@ namespace PokeQuizWebAPI.Controllers
             quizModel.PokemonAnswers.Pop();
             var storeStackIntoString = JsonConvert.SerializeObject(quizModel.PokemonAnswers);
             _session.SetString("pokemonStack", storeStackIntoString);
+            return View(quizModel);
+
+
             _session.SetString("pokemonAnswer", quizModel.CorrectPokemon.PokemonName);
 
             //randomize answers
-           
+
             quizModel.QuizAnswers.Add(quizModel.CorrectPokemon);
             quizModel.QuizAnswers.Add(quizModel.WrongAnswer1);
             quizModel.QuizAnswers.Add(quizModel.WrongAnswer2);
@@ -84,9 +80,9 @@ namespace PokeQuizWebAPI.Controllers
             {
                 return View("QuizResults");
             }
-            
+
             return View(quizModel);
-            
+
         }
 
         public async Task<ActionResult> CheckAnswer(string pokemonName)
@@ -113,7 +109,7 @@ namespace PokeQuizWebAPI.Controllers
                 quizResults.QuestionsAttempted = _session.GetInt32("questionsAttempted").GetValueOrDefault();
                 quizResults.ScoreThisAttempt = _quizCalulations.CalculateCurrentAttemptScore(quizResults.AmountCorrect, quizResults.QuestionsAttempted);
                 //quizResults.AmountCorrect = 
-                return View("QuizResults",quizResults);
+                return View("QuizResults", quizResults);
             }
 
             return View("QuizView", quizModel);
@@ -148,6 +144,23 @@ namespace PokeQuizWebAPI.Controllers
             var quizResultModel = new QuizAttemptResultsViewModel();
             return View(quizResultModel);
         }
+        //public async Task<IActionResult> CreateQuiz(QuizDifficultyViewModel userEnteredQuestion) //feeding into eds
+        //{
+        //    var quizModel = new QuizViewModel();
+        //    var pokemonAnswers = _randomizer.RandomizeListOfAnsweres(userEnteredQuestion.SelectedNumberOfQuestions);
+        //    quizModel.CorrectPokemon = await _pokemonService.MapPokemonInfo(pokemonAnswers.Peek());
+        //    var listOfWrongAnswers = _randomizer.RandomizeAditionalPokemon(pokemonAnswers.Peek(), 4);
+        //    quizModel.WrongAnswer1 = await _pokemonService.MapPokemonInfo(listOfWrongAnswers[0]);
+        //    quizModel.WrongAnswer2 = await _pokemonService.MapPokemonInfo(listOfWrongAnswers[1]);
+        //    quizModel.WrongAnswer3 = await _pokemonService.MapPokemonInfo(listOfWrongAnswers[2]);
+        //    pokemonAnswers.Pop();
+        //    return View("QuizView", quizModel);
+        //}
+
+        //public IActionResult QuizView(QuizViewModel quizView)
+        //{
+        //    return View(quizView);
+        //}
 
         public IActionResult SubmitPokemonId()
         {
@@ -161,6 +174,6 @@ namespace PokeQuizWebAPI.Controllers
         }
 
 
-         
+
     }
 }
