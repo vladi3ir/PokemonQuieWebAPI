@@ -9,11 +9,15 @@
      width="50%" height="50%" alt="filter applied" />
 
 
-<form asp-controller="Quiz" asp-action="CheckAnswer" >
-    <input type="radio" name="pokemonName" value="@Model.WrongAnswer1.PokemonName"/>@Model.WrongAnswer1.PokemonName <br />
-    <input type="radio" name="pokemonName" value="@Model.WrongAnswer2.PokemonName">@Model.WrongAnswer2.PokemonName <br />
-    <input type="radio" name="pokemonName" value="@Model.WrongAnswer3.PokemonName">@Model.WrongAnswer3.PokemonName <br />
-    <input type="radio" name="pokemonName" value="@Model.CorrectPokemon.PokemonName">@Model.CorrectPokemon.PokemonName <br />
-    <input type="submit" name="Submit" value="pokemonName" class="btn btn-primary btn-block" />
+
+<form asp-controller="Quiz" asp-action="CheckAnswer">
+    @foreach (var pokeName in Model.QuizAnswers)
+    {
+        <input type="radio" name="pokemonName" value="@pokeName.PokemonName" /> @pokeName.PokemonName
+    }
+<input type="submit" value="Submit" class="btn btn-primary btn-block" />
+</form>
+=======
 
 </form>
+
