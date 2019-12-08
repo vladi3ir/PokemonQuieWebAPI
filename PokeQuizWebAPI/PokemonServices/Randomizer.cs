@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PokeQuizWebAPI.Models.PokemonViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,11 +9,11 @@ namespace PokeQuizWebAPI.PokemonServices
 {
     public class Randomizer : IRandomizer
     {
-
+       
 
         public List<int> RandomizeAditionalPokemon(int answer, int amountOfPossibleAnswers)
         {
-            var aditionalFillerAnswers = new List<int> { };
+            var aditionalFillerAnswers = new List<int>();
             var rand = new Random();
             
             //Neeed to get actual length of lsit here!
@@ -60,6 +61,27 @@ namespace PokeQuizWebAPI.PokemonServices
             }
 
             return answerStack;
+        }
+
+        public List<PokemonResponse> RandomizePossibleAnswerOrder(List<PokemonResponse> pokeAnswers)
+        {
+            var reorderedAnswerList = new List<PokemonResponse>();
+            var rand = new Random();
+
+            foreach (var pokeNum in pokeAnswers)
+            {
+                do
+                {
+                    var temp = rand.Next(0, pokeAnswers.Count - 1);
+                    if (!reorderedAnswerList.Contains(pokeAnswers[temp]))
+                    {
+                        reorderedAnswerList.Add(pokeAnswers[temp]);
+
+                    }
+
+                } while (reorderedAnswerList.Count <= pokeAnswers.Count);
+            }
+            return reorderedAnswerList;
         }
     }
 }
