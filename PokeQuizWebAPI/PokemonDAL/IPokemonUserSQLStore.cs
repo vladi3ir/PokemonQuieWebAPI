@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace PokeQuizWebAPI.PokemonDAL
 {
-    public interface IPokemonStore
+    public interface IPokemonUserSQLStore
     {
     }
 
