@@ -14,30 +14,30 @@ namespace PokeQuizWebAPI.PokemonServices
         }
 
 
-        public QuizResultsViewModel CreatePokemonUserData(QuizResultsViewModel model)
-        {
+        //public QuizResultsViewModel CreatePokemonUserData(QuizResultsViewModel model)
+        //{
 
 
-            var dalModel = new QuizViewModel();
-            dalModel. = model.UserSelectedPlanet;
-            _starwarsStore.InsertNewPlanet(dalModel);
+        //    //var dalModel = new QuizViewModel();
+        //    //dalModel. = model.UserSelectedPlanet;
+        //    //_starwarsStore.InsertNewPlanet(dalModel);
 
-            //MAPPING
-            var dalProducts = _starwarsStore.SelectAllPlanets();
-            var planets = new List<Planet>();
+        //    ////MAPPING
+        //    //var dalProducts = _starwarsStore.SelectAllPlanets();
+        //    //var planets = new List<Planet>();
 
-            foreach (var dalProduct in dalProducts)
-            {
-                var product = new Planet();
-                product.Name = dalProduct.LinkToURL;
-                planets.Add(product);
-            }
+        //    //foreach (var dalProduct in dalProducts)
+        //    //{
+        //    //    var product = new Planet();
+        //    //    product.Name = dalProduct.LinkToURL;
+        //    //    planets.Add(product);
+        //    //}
 
-            var StarwarsViewModel = new StarwarsViewModel();
-            StarwarsViewModel.Planet = planets;
+        //    //var StarwarsViewModel = new StarwarsViewModel();
+        //    //StarwarsViewModel.Planet = planets;
 
-            return StarwarsViewModel;
-        }
+        //    //return StarwarsViewModel;
+        //}
     }
 
 
