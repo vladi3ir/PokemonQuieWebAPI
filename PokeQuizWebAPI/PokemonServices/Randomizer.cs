@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-//using 
+ 
 
 namespace PokeQuizWebAPI.PokemonServices
 {
@@ -67,9 +67,9 @@ namespace PokeQuizWebAPI.PokemonServices
         {
             var reorderedAnswerList = new List<PokemonResponse>();
             var rand = new Random();
+            var originalLength = pokeAnswers.Count();
 
-            foreach (var pokeNum in pokeAnswers)
-            {
+            
                 do
                 {
                     var temp = rand.Next(0, pokeAnswers.Count - 1);
@@ -78,9 +78,9 @@ namespace PokeQuizWebAPI.PokemonServices
                         reorderedAnswerList.Add(pokeAnswers[temp]);
 
                     }
-
-                } while (reorderedAnswerList.Count <= pokeAnswers.Count);
-            }
+                    pokeAnswers.Remove(pokeAnswers[temp]);
+                } while (reorderedAnswerList.Count < originalLength);
+            
             return reorderedAnswerList;
         }
     }
