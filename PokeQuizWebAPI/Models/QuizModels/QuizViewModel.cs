@@ -15,7 +15,6 @@ namespace PokeQuizWebAPI.Models.QuizModels
         public Stack<int> PokemonAnswers = new Stack<int>();
         public PokemonResponse SelectedAnswer { get; set; }
         public List<PokemonResponse> QuizAnswers = new List<PokemonResponse>();
-
     }
 }
 
