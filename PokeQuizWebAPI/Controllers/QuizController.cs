@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PokeQuizWebAPI.CalculationsService;
 using PokeQuizWebAPI.Models.PokemonViewModels;
 using PokeQuizWebAPI.Models.QuizModels;
 using PokeQuizWebAPI.PokemonServices;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PokeQuizWebAPI.Controllers
 {
@@ -21,8 +19,8 @@ namespace PokeQuizWebAPI.Controllers
         private readonly IPokemonUserSQLService _pokemonUserSQLService;
 
         public QuizController
-        (IPokemonService pokemonService, 
-         IRandomizer randomizer, 
+        (IPokemonService pokemonService,
+         IRandomizer randomizer,
          IHttpContextAccessor httpContextAccessor,
          IQuizCalculations quizCalculations,
          IPokemonUserSQLService pokemonUserSQLService)
@@ -33,7 +31,6 @@ namespace PokeQuizWebAPI.Controllers
             _quizCalulations = quizCalculations;
             _pokemonUserSQLService = pokemonUserSQLService;
 
-            
         }
 
         public IActionResult Index()
@@ -77,7 +74,7 @@ namespace PokeQuizWebAPI.Controllers
             _session.SetString("pokemonAnswer", quizModel.CorrectPokemon.PokemonName);
 
             //randomize answers
-           
+
             quizModel.QuizAnswers.Add(quizModel.CorrectPokemon);
             quizModel.QuizAnswers.Add(quizModel.WrongAnswer1);
             quizModel.QuizAnswers.Add(quizModel.WrongAnswer2);
@@ -89,9 +86,9 @@ namespace PokeQuizWebAPI.Controllers
             {
                 return View("QuizResults");
             }
-            
+
             return View(quizModel);
-            
+
         }
 
         public async Task<ActionResult> CheckAnswer(string pokemonName)
@@ -122,7 +119,7 @@ namespace PokeQuizWebAPI.Controllers
                 _pokemonUserSQLService.CreatePokemonUserData(quizResults);
                 _session.Clear();
 
-                return View("QuizResults",quizResults);
+                return View("QuizResults", quizResults);
             }
 
             return View("QuizView", quizModel);
@@ -170,6 +167,6 @@ namespace PokeQuizWebAPI.Controllers
         }
 
 
-         
+
     }
 }
