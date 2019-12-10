@@ -13,7 +13,7 @@
 <img src="@Model.CorrectPokemon.PokemonImageUrl"
      width="50%" height="50%" alt="filter applied" />
 
-<form asp-controller="Quiz" asp-action="CheckAnswer">
+<form asp-controller="Quiz" asp-action="QuizView">
     @foreach (var pokeName in Model.QuizAnswers)
     {
         <input type="radio" name="pokemonName" value="@pokeName.PokemonName" /> @pokeName.PokemonName
