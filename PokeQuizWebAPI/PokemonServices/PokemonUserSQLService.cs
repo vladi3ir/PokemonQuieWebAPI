@@ -1,10 +1,11 @@
 ﻿using PokeQuizWebAPI.Models.QuizModels;
 using PokeQuizWebAPI.PokemonDAL;
 using System.Collections.Generic;
+using Identity.Dapper.Entities;
 
 namespace PokeQuizWebAPI.PokemonServices
 {
-    public class PokemonUserSQLService
+    public class PokemonUserSQLService : IPokemonUserSQLService
     {
         private readonly IPokemonUserSQLStore _pokemonUserSQLStore;
 
@@ -14,31 +15,43 @@ namespace PokeQuizWebAPI.PokemonServices
         }
 
 
-        //public QuizResultsViewModel CreatePokemonUserData(QuizResultsViewModel model)
-        //{
+        public void CreatePokemonUserData(QuizAttemptResultsViewModel model)
+        {
 
 
-        //    //var dalModel = new QuizViewModel();
-        //    //dalModel. = model.UserSelectedPlanet;
-        //    //_starwarsStore.InsertNewPlanet(dalModel);
+            var dalModel = new PokemonDALModel();
+            //dalModel.Username = 
+            dalModel.TotalAccumlatiedPoints += model.AmountCorrect;
+            dalModel.TotalPossiblePoints += model.QuestionsAttempted;
+            dalModel.RecentTotalCorrect = model.AmountCorrect;
+            dalModel.RecentAmountOfQuestions = model.QuestionsAttempted;
+            dalModel.WhichQuizTaken = model.QuestionsAttempted.ToString();
 
-        //    ////MAPPING
-        //    //var dalProducts = _starwarsStore.SelectAllPlanets();
-        //    //var planets = new List<Planet>();
+            _pokemonUserSQLStore.UpdateUserStatusAtQuizEnd(dalModel);
 
-        //    //foreach (var dalProduct in dalProducts)
-        //    //{
-        //    //    var product = new Planet();
-        //    //    product.Name = dalProduct.LinkToURL;
-        //    //    planets.Add(product);
-        //    //}
 
-        //    //var StarwarsViewModel = new StarwarsViewModel();
-        //    //StarwarsViewModel.Planet = planets;
 
-        //    //return StarwarsViewModel;
-        //}
+
+            //    //_starwarsStore.InsertNewPlanet(dalModel);
+
+            //    ////MAPPING
+            //    //var dalProducts = _starwarsStore.SelectAllPlanets();
+            //    //var planets = new List<Planet>();
+
+            //    //foreach (var dalProduct in dalProducts)
+            //    //{
+            //    //    var product = new Planet();
+            //    //    product.Name = dalProduct.LinkToURL;
+            //    //    planets.Add(product);
+            //    //}
+
+            //    //var StarwarsViewModel = new StarwarsViewModel();
+            //    //StarwarsViewModel.Planet = planets;
+
+            //    //return StarwarsViewModel;
+            //}
+        }
+
+
     }
-
-
 }
