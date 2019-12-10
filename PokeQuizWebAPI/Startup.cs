@@ -27,7 +27,6 @@ namespace PokeQuizWebAPI
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddEnvironmentVariables()
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
@@ -93,6 +92,7 @@ namespace PokeQuizWebAPI
             services.AddSingleton<IQuizFlow, QuizFlow>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            services.AddSingleton<IPokemonUserSQLService, PokemonUserSQLService>();
             services.AddSingleton<IPokemonUserSQLStore, PokemonUserSQLStore>();
 
             services.AddSingleton<IQuizCalculations, QuizCalculations>();

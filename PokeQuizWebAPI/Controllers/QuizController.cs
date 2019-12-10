@@ -19,19 +19,26 @@ namespace PokeQuizWebAPI.Controllers
         private readonly ISession _session;
         private readonly IQuizCalculations _quizCalulations;
         private readonly IQuizFlow _quizFlow;
+        private readonly IPokemonUserSQLService _pokemonUserSQLService;
+
 
         public QuizController
         (IPokemonService pokemonService, 
          IRandomizer randomizer, 
          IHttpContextAccessor httpContextAccessor,
          IQuizCalculations quizCalculations,
-         IQuizFlow quizFlow)
+         IQuizFlow quizFlow,
+         IPokemonUserSQLService pokemonUserSQLService)
+
         {
             _pokemonService = pokemonService;
             _randomizer = randomizer;
             _session = httpContextAccessor.HttpContext.Session;
             _quizCalulations = quizCalculations;
             _quizFlow = quizFlow;
+            _pokemonUserSQLService = pokemonUserSQLService;
+
+
         }
 
         public IActionResult Index()
@@ -58,7 +65,8 @@ namespace PokeQuizWebAPI.Controllers
                 quizResults.QuestionsAttempted = _quizFlow.TotalQuetions;
                 quizResults.ScoreThisAttempt = _quizCalulations.CalculateCurrentAttemptScore(quizResults.AmountCorrect, quizResults.QuestionsAttempted);
                 _session.Clear();
-                return View("QuizResults", quizResults);
+                 _pokemonUserSQLService.CreatePokemonUserData(quizResults);
+                return View("QuizResults",quizResults);
             }
             return View(quizModel);
         }
