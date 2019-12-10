@@ -91,6 +91,7 @@ namespace PokeQuizWebAPI
             services.AddSingleton<IRandomizer, Randomizer>();
             services.AddSingleton<IPokemonUserSQLService, PokemonUserSQLService>();
 
+
             services.AddSingleton<IPokemonUserSQLStore, PokemonUserSQLStore>();
 
             services.AddSingleton<IQuizCalculations, QuizCalculations>();
