@@ -60,12 +60,8 @@ namespace PokeQuizWebAPI.Controllers
             QuizViewModel quizModel = await _quizFlow.SetupQuiz(userEnteredQuestion, pokemonName);
             if (quizModel.PokemonAnswers.Count == 0)
             {
-                var quizResults = new QuizAttemptResultsViewModel();
-                quizResults.AmountCorrect = _quizFlow.QuestionsCorrect; /*_session.GetInt32("amountCorrect").GetValueOrDefault();*/
-                quizResults.QuestionsAttempted = _quizFlow.TotalQuetions;
-                quizResults.ScoreThisAttempt = _quizCalulations.CalculateCurrentAttemptScore(quizResults.AmountCorrect, quizResults.QuestionsAttempted);
-                _session.Clear();
-                 _pokemonUserSQLService.CreatePokemonUserData(quizResults);
+                var quizResults = await _quizFlow.SetQuizResults();
+                _pokemonUserSQLService.CreatePokemonUserData(quizResults);
                 return View("QuizResults",quizResults);
             }
             return View(quizModel);
