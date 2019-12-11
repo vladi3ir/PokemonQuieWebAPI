@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PokeQuizWebAPI.CalculationsService;
+using PokeQuizWebAPI.Models;
 using PokeQuizWebAPI.Models.PokemonViewModels;
 using PokeQuizWebAPI.Models.QuizModels;
 using PokeQuizWebAPI.PokemonServices;
@@ -81,10 +82,17 @@ namespace PokeQuizWebAPI.Controllers
             return View();
         }
 
-        public async Task<IActionResult> GetPokemonDetails(int id)
+        public async Task<IActionResult> GetPokemonDetails(int id )
         {
-            var result = await _pokemonService.MapPokemonInfo(id);
-            return View(result);
+            if ((id > 0) && (id < 807))
+            {
+                var result = await _pokemonService.MapPokemonInfo(id);
+                return View(result);
+            }
+            else
+            {
+                return View("Error", new InvalidPokeIDViewModel() { ErrorMessage = "Sorry, That is not a valid ID"});
+            }
         }
 
 
