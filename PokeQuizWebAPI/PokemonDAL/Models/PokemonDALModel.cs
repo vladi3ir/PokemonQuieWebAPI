@@ -11,6 +11,9 @@ namespace PokeQuizWebAPI.PokemonDAL
         public string Username { get; set; }
         public int TotalAccumlatiedPoints { get; set; }
         public int TotalPossiblePoints { get; set; }
+        public int FK_UsernameID { get; set; }
+        public float OverallPercent { get; set; }
+
 
         public int QuizLength25Attempts { get; set; }
         public int QuizLength50Attempts { get; set; }
