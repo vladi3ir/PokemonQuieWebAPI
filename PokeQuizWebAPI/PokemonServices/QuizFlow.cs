@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using PokeQuizWebAPI.CalculationsService;
 using PokeQuizWebAPI.Models.QuizModels;
 
 namespace PokeQuizWebAPI.PokemonServices
@@ -13,15 +14,18 @@ namespace PokeQuizWebAPI.PokemonServices
         private readonly ISession _session;
         private readonly IRandomizer _randomizer;
         private readonly IPokemonService _pokemonService;
+        private readonly IQuizCalculations _quizCalculations;
 
         public QuizFlow
             (IHttpContextAccessor httpContextAccessor,
             IRandomizer randomizer,
-            IPokemonService pokemonService)
+            IPokemonService pokemonService,
+            IQuizCalculations quizCalculations)
         {
             _session = httpContextAccessor.HttpContext.Session;
             _randomizer = randomizer;
             _pokemonService = pokemonService;
+            _quizCalculations = quizCalculations;
         }
         public async Task<QuizViewModel> SetupQuiz(QuizDifficultyViewModel userEnteredQuestion, string pokemonName)
         {
@@ -41,8 +45,8 @@ namespace PokeQuizWebAPI.PokemonServices
 
             if (quizModel.PokemonAnswers.Count == 0)
             {
-
                 quizModel.PokemonAnswers = _randomizer.RandomizeListOfAnsweres(userEnteredQuestion.SelectedNumberOfQuestions);
+                
             }
             var testString = _session.GetString("pokemonStack");
 
@@ -65,8 +69,19 @@ namespace PokeQuizWebAPI.PokemonServices
             quizModel.QuizAnswers.Add(quizModel.WrongAnswer2);
             quizModel.QuizAnswers.Add(quizModel.WrongAnswer3);
             quizModel.QuizAnswers = _randomizer.RandomizePossibleAnswerOrder(quizModel.QuizAnswers);
+            
 
             return quizModel;
+        }
+
+        public async Task<QuizAttemptResultsViewModel> SetQuizResults()
+        {
+            var quizResults = new QuizAttemptResultsViewModel();
+            quizResults.AmountCorrect = _session.GetInt32("amountCorrect") ?? 0;
+            quizResults.QuestionsAttempted = _session.GetInt32("questionsAttempted") ?? 0;
+            quizResults.ScoreThisAttempt = _quizCalculations.CalculateCurrentAttemptScore(quizResults.AmountCorrect, quizResults.QuestionsAttempted);
+            _session.Clear();
+            return quizResults;
         }
 
         public int TotalQuetions => _session.GetInt32("questionsAttempted") ?? 0;
