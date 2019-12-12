@@ -84,7 +84,7 @@ namespace PokeQuizWebAPI.Controllers
 
         public async Task<IActionResult> GetPokemonDetails(int id )
         {
-            if ((id > 0) && (id < 807))
+            if ((id > 0) && (id <= 807))
             {
                 var result = await _pokemonService.MapPokemonInfo(id);
                 return View(result);
