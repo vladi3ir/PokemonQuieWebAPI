@@ -1,13 +1,17 @@
 CREATE TABLE UserScoreData(
+
 Username VARCHAR(250),
+FK_UsernameID INT references IdentityUser(ID),
 TotalAccumlatiedPoints INT,
 TotalPossiblePoints INT,
 QuizLength25Attempts INT,
 QuizLength50Attempts INT,
 QuizLength100Attempts INT,
 AverageScore FLOAT,
-RecentAmountOfQuestions  INT,
+OverallPercent FLOAT,
+RecentAmountOfQuestions INT,
 RecentTotalCorrect INT,
 WhichQuizTaken VARCHAR (250),
-AttemptsPerQuiz INT,
+AttemptsPerQuiz INT
+
 );
