@@ -14,8 +14,18 @@ namespace PokeQuizWebAPI.PokemonDAL
         }
         public bool UpdateUserStatusAtQuizEnd(PokemonDALModel dalModel)
         {
-            var sql = $@"Insert INTO  
-            UserScoreData( Username, 
+            var sql = "" ;
+
+            using (var connection = new SqlConnection(_config.ConnectionString))
+            {
+                var result = connection.Execute(sql, dalModel);
+                return true;
+            }
+        }
+        public bool InsertUserStatusAtQuizEnd(PokemonDALModel dalModel)
+            {
+                var sql = $@"Insert INTO  
+                        UserScoreData( Username, 
                         FK_UsernameID,
                         TotalAccumlatiedPoints, 
                         TotalPossiblePoints, 
@@ -43,12 +53,12 @@ namespace PokeQuizWebAPI.PokemonDAL
                             @{nameof(dalModel.WhichQuizTaken)},
                             @{nameof(dalModel.AttemptsPerQuiz)})";
 
-            using (var connection = new SqlConnection(_config.ConnectionString))
-            {
-                var result = connection.Execute(sql, dalModel);
-                return true;
+                using (var connection = new SqlConnection(_config.ConnectionString))
+                {
+                    var result = connection.Execute(sql, dalModel);
+                    return true;
+                }
             }
-
-        }
+           
     }
 }
