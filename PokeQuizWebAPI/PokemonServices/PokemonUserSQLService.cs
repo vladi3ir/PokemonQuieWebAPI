@@ -17,10 +17,8 @@ namespace PokeQuizWebAPI.PokemonServices
 
         public void CreatePokemonUserData(QuizAttemptResultsViewModel model)
         {
-
-
             var dalModel = new PokemonDALModel();
-            //dalModel.Username = 
+            
             dalModel.TotalAccumlatiedPoints += model.AmountCorrect;
             dalModel.TotalPossiblePoints += model.QuestionsAttempted;
             dalModel.RecentTotalCorrect = model.AmountCorrect;
@@ -29,29 +27,6 @@ namespace PokeQuizWebAPI.PokemonServices
 
             _pokemonUserSQLStore.UpdateUserStatusAtQuizEnd(dalModel);
 
-
-
-
-            //    //_starwarsStore.InsertNewPlanet(dalModel);
-
-            //    ////MAPPING
-            //    //var dalProducts = _starwarsStore.SelectAllPlanets();
-            //    //var planets = new List<Planet>();
-
-            //    //foreach (var dalProduct in dalProducts)
-            //    //{
-            //    //    var product = new Planet();
-            //    //    product.Name = dalProduct.LinkToURL;
-            //    //    planets.Add(product);
-            //    //}
-
-            //    //var StarwarsViewModel = new StarwarsViewModel();
-            //    //StarwarsViewModel.Planet = planets;
-
-            //    //return StarwarsViewModel;
-            //}
         }
-
-
     }
 }

@@ -37,8 +37,6 @@ namespace PokeQuizWebAPI.Controllers
             _quizCalulations = quizCalculations;
             _quizFlow = quizFlow;
             _pokemonUserSQLService = pokemonUserSQLService;
-
-
         }
 
         public IActionResult Index()
