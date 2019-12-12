@@ -12,20 +12,20 @@ namespace PokeQuizWebAPI.PokemonServices
     {
         private readonly IPokemonUserSQLStore _pokemonUserSQLStore;
         private readonly UserManager<DapperIdentityUser> _userManager;
-        private readonly HttpContext _httpContext;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public PokemonUserSQLService(IPokemonUserSQLStore pokemonUserSQLStore, UserManager<DapperIdentityUser> userManager, HttpContext httpsContext)
+        public PokemonUserSQLService(IPokemonUserSQLStore pokemonUserSQLStore, UserManager<DapperIdentityUser> userManager, IHttpContextAccessor httpsContextAccessor)
         {
             _pokemonUserSQLStore = pokemonUserSQLStore;
             _userManager = userManager;
-            _httpContext = httpsContext;
+            _httpContextAccessor = httpsContextAccessor;
         }
 
 
         public async  Task CreatePokemonUserData(QuizAttemptResultsViewModel model)
         {
             
-            var user = await _userManager.GetUserAsync(_httpContext.User);
+            var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
             var dalModel = new PokemonDALModel();
 
             dalModel.Username = user.UserName;
@@ -37,12 +37,6 @@ namespace PokeQuizWebAPI.PokemonServices
 
             _pokemonUserSQLStore.UpdateUserStatusAtQuizEnd(dalModel);
 
-
-
-
-          
         }
-
-
     }
 }
