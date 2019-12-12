@@ -29,6 +29,7 @@ namespace PokeQuizWebAPI.PokemonServices
             var dalModel = new PokemonDALModel();
 
             dalModel.Username = user.UserName;
+            dalModel.FK_UsernameID = user.Id;
             dalModel.TotalAccumlatiedPoints += model.AmountCorrect;
             dalModel.TotalPossiblePoints += model.QuestionsAttempted;
             dalModel.RecentTotalCorrect = model.AmountCorrect;
