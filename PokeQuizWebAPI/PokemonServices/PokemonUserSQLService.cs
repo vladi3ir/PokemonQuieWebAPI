@@ -1,7 +1,5 @@
 ﻿using PokeQuizWebAPI.Models.QuizModels;
 using PokeQuizWebAPI.PokemonDAL;
-using System.Collections.Generic;
-using Identity.Dapper.Entities;
 
 namespace PokeQuizWebAPI.PokemonServices
 {
@@ -20,7 +18,6 @@ namespace PokeQuizWebAPI.PokemonServices
 
 
             var dalModel = new PokemonDALModel();
-            //dalModel.Username = 
             dalModel.TotalAccumlatiedPoints += model.AmountCorrect;
             dalModel.TotalPossiblePoints += model.QuestionsAttempted;
             dalModel.RecentTotalCorrect = model.AmountCorrect;
