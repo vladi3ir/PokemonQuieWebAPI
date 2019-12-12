@@ -14,7 +14,17 @@ namespace PokeQuizWebAPI.PokemonDAL
         }
         public bool UpdateUserStatusAtQuizEnd(PokemonDALModel dalModel)
         {
-            var sql = "" ;
+
+            var sql = $@"UPDATE UserScoreData 
+        SET   TotalAccumlatiedPoints  +=  @{nameof(dalModel.TotalAccumlatiedPoints)},
+              TotalPossiblePoints     +=  @{nameof(dalModel.TotalPossiblePoints)},
+              QuizLength25Attempts    +=  @{nameof(dalModel.QuizLength25Attempts)},
+              QuizLength50Attempts    +=  @{nameof(dalModel.QuizLength50Attempts)},
+              QuizLength100Attempts   +=  @{nameof(dalModel.QuizLength100Attempts)},
+              AverageScore            =   @{nameof(dalModel.AverageScore)},
+              RecentAmountOfQuestions =   @{nameof(dalModel.RecentAmountOfQuestions)},
+              RecentTotalCorrect      =   @{nameof(dalModel.RecentTotalCorrect)},
+        WHERE Username                =   @{nameof(dalModel.Username)}";
 
             using (var connection = new SqlConnection(_config.ConnectionString))
             {
@@ -22,6 +32,8 @@ namespace PokeQuizWebAPI.PokemonDAL
                 return true;
             }
         }
+
+ 
         public bool InsertUserStatusAtQuizEnd(PokemonDALModel dalModel)
             {
                 var sql = $@"Insert INTO  
