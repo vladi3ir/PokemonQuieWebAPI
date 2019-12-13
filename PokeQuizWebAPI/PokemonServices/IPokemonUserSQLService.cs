@@ -8,8 +8,7 @@ namespace PokeQuizWebAPI.PokemonServices
 {
     public interface IPokemonUserSQLService
     {
-        void CreatePokemonUserData(QuizAttemptResultsViewModel model);
-
+         Task CreatePokemonUserData(QuizAttemptResultsViewModel model);
 
     }
 }
