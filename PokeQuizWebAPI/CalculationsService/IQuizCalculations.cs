@@ -8,6 +8,6 @@ namespace PokeQuizWebAPI.CalculationsService
     public interface IQuizCalculations
     {
         double CalculateCurrentAttemptScore(int questionsCorrect, int questionsAttempted);
-        double CalculateOverallScore(int totalCorrect, int totalAttempted);
+        int PrecentileFinder();
     }
 }

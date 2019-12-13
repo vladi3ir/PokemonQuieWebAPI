@@ -8,6 +8,12 @@ namespace PokeQuizWebAPI.CalculationsService
 {
     public class QuizCalculations : IQuizCalculations
     {
+        private readonly IPokemonUserSQLStore _pokemonUserSQLStore;
+
+        public QuizCalculations(IPokemonUserSQLStore pokemonUserSQLStore)
+        {
+            _pokemonUserSQLStore = pokemonUserSQLStore;
+        }
         public double CalculateCurrentAttemptScore(int questionsCorrect, int questionsAttempted)
         {
             var percentScoreThisAttempt = 0.0;
@@ -19,15 +25,27 @@ namespace PokeQuizWebAPI.CalculationsService
             return percentScoreThisAttempt;
         }
 
-        public double CalculateOverallScore(int totalCorrect, int totalAttempted)
+        public int PrecentileFinder()
         {
-            var percentScoreTotal = 0.0;
-            var totalAmountCorrect = Convert.ToDouble(totalCorrect);
-            var totalAmountAttempted = Convert.ToDouble(totalAttempted);
-            
-            percentScoreTotal = (totalAmountCorrect / totalAmountAttempted);
+            var currentUserScore = _pokemonUserSQLStore.ReturnPlayersAveragePercent();
+            var listOfUsers = _pokemonUserSQLStore.SelectAllScores();
+            int numOfBottomPrecentile = 0;
+            var userCount = listOfUsers.Count();
 
-            return percentScoreTotal;
+            foreach (var allPlayersScores in listOfUsers)
+            {
+                { if (allPlayersScores < currentUserScore) 
+                    {
+                        numOfBottomPrecentile += 1;
+                    }
+                }
+            }
+
+            var userPrecentile = (1 - (numOfBottomPrecentile / userCount));
+
+            return userPrecentile;
+
+
         }
 
       
