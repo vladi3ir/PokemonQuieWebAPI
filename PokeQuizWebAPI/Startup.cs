@@ -1,22 +1,21 @@
 ﻿using Identity.Dapper;
 using Identity.Dapper.Entities;
 using Identity.Dapper.Models;
+using Identity.Dapper.SqlServer.Connections;
+using Identity.Dapper.SqlServer.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Identity.Dapper.SqlServer.Connections;
-using Identity.Dapper.SqlServer.Models;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PokeQuizWebAPI.AccountService;
-using PokeQuizWebAPI.PokemonApiCall;
-using PokeQuizWebAPI.PokemonServices;
-using PokeQuizWebAPI.PokemonDAL;
-using System.IO;
 using PokeQuizWebAPI.CalculationsService;
+using PokeQuizWebAPI.PokemonApiCall;
+using PokeQuizWebAPI.PokemonDAL;
+using PokeQuizWebAPI.PokemonServices;
+using System.IO;
 
 
 namespace PokeQuizWebAPI
@@ -30,11 +29,7 @@ namespace PokeQuizWebAPI
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
-                
 
-
-
-            builder.AddEnvironmentVariables();
             Configuration = builder.Build();
         }
 
@@ -43,11 +38,22 @@ namespace PokeQuizWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.ConfigureDapperConnectionProvider<SqlServerConnectionProvider>(
-               Configuration.GetSection("ConnectionStrings"))
-                
-               .ConfigureDapperIdentityCryptography(Configuration.GetSection("DapperIdentityCryptography"))
-               .ConfigureDapperIdentityOptions(new DapperIdentityOptions { UseTransactionalBehavior = false }); //Change to True to use Transactions in all operations
+
+            var config = new ConfigurationBuilder()
+           .SetBasePath(Directory.GetCurrentDirectory())
+           .AddJsonFile("appsettings.json", false, true)
+           .AddEnvironmentVariables()
+           .Build();
+            var appConfig = new PokemonConfig();
+
+            config.Bind("PokemonConfig", appConfig);
+            services.AddSingleton(appConfig);
+
+            var identityConnectionString = Configuration.GetSection("DapperIdentity");
+
+            services.ConfigureDapperConnectionProvider<SqlServerConnectionProvider>(identityConnectionString)
+                .ConfigureDapperIdentityCryptography(Configuration.GetSection("DapperIdentityCryptography"))
+                .ConfigureDapperIdentityOptions(new DapperIdentityOptions { UseTransactionalBehavior = false });
 
             services.AddIdentity<DapperIdentityUser, DapperIdentityRole>(x =>
             {
@@ -68,15 +74,6 @@ namespace PokeQuizWebAPI
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            var config = new ConfigurationBuilder()
-           .SetBasePath(Directory.GetCurrentDirectory())
-           .AddJsonFile("appsettings.json", false, true)
-           .AddEnvironmentVariables()
-           .Build();
-            var appConfig = new PokemonConfig();
-
-            config.Bind("PokemonConfig", appConfig);
-            services.AddSingleton(appConfig);
 
             services.AddSession(options =>
                 {
