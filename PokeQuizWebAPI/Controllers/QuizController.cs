@@ -48,51 +48,6 @@ namespace PokeQuizWebAPI.Controllers
             var viewModel = new QuizDifficultyViewModel();
             return View(viewModel);
         }
-
-        public async Task<IActionResult> QuizView(QuizDifficultyViewModel userEnteredQuestion) //feeding into eds
-        {
-            _session.SetInt32("questionsAttempted", userEnteredQuestion.SelectedNumberOfQuestions);
-            userEnteredQuestion.SelectedNumberOfQuestions = userEnteredQuestion.SelectedNumberOfQuestions + 1;
-            var quizModel = new QuizViewModel();
-            if (quizModel.PokemonAnswers.Count == 0)
-            {
-                quizModel.PokemonAnswers = _randomizer.RandomizeListOfAnsweres(userEnteredQuestion.SelectedNumberOfQuestions);
-            }
-            var testString = _session.GetString("pokemonStack");
-
-            if (testString != null)
-            {
-                quizModel.PokemonAnswers = JsonConvert.DeserializeObject<Stack<int>>(_session.GetString("pokemonStack"));
-            }
-
-            quizModel.CorrectPokemon = await _pokemonService.MapPokemonInfo(quizModel.PokemonAnswers.Peek());
-            var listOfWrongAnswers = _randomizer.RandomizeAditionalPokemon(quizModel.PokemonAnswers.Peek(), 4);
-            quizModel.WrongAnswer1 = await _pokemonService.MapPokemonInfo(listOfWrongAnswers[0]);
-            quizModel.WrongAnswer2 = await _pokemonService.MapPokemonInfo(listOfWrongAnswers[1]);
-            quizModel.WrongAnswer3 = await _pokemonService.MapPokemonInfo(listOfWrongAnswers[2]);
-            quizModel.PokemonAnswers.Pop();
-            var storeStackIntoString = JsonConvert.SerializeObject(quizModel.PokemonAnswers);
-            _session.SetString("pokemonStack", storeStackIntoString);
-            _session.SetString("pokemonAnswer", quizModel.CorrectPokemon.PokemonName);
-
-            //randomize answers
-
-            quizModel.QuizAnswers.Add(quizModel.CorrectPokemon);
-            quizModel.QuizAnswers.Add(quizModel.WrongAnswer1);
-            quizModel.QuizAnswers.Add(quizModel.WrongAnswer2);
-            quizModel.QuizAnswers.Add(quizModel.WrongAnswer3);
-
-            quizModel.QuizAnswers = _randomizer.RandomizePossibleAnswerOrder(quizModel.QuizAnswers);
-
-            if (quizModel.PokemonAnswers.Count == 0)
-            {
-                return View("QuizResults");
-            }
-
-            return View(quizModel);
-        }
-
-        // public async Task<ActionResult> CheckAnswer(string pokemonName)
         public async Task<IActionResult> QuizView(QuizDifficultyViewModel userEnteredQuestion, string pokemonName) //feeding into eds
         {
             QuizViewModel quizModel = await _quizFlow.SetupQuiz(userEnteredQuestion, pokemonName);
