@@ -9,5 +9,46 @@
 <h3>Amount Correct: @Model.AmountCorrect</h3>
 <h3>Score this attempt: @Model.ScoreThisAttempt %</h3>
 
+<table>
+    <thead>
+        <tr>
+            
+            <th>Correct Answer</th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var answer in Model.CorrectAnswers)
+        {
+            <tr>
+
+                <td>@answer</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<table>
+    <thead>
+        <tr>
+
+            <th>User Answer</th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var answer in Model.SelectedAnswers)
+
+        {
+            <tr>
+
+                <td>@answer</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
 
 

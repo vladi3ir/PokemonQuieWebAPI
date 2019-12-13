@@ -24,6 +24,7 @@ namespace PokeQuizWebAPI.PokemonServices
 
         public async  Task CreatePokemonUserData(QuizAttemptResultsViewModel model)
         {
+
             
             var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
             var dalModel = new PokemonDALModel();
