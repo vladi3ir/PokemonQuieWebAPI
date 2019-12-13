@@ -61,7 +61,6 @@ namespace PokeQuizWebAPI.PokemonServices
             {
                 _session.SetInt32("questionsAttempted", userEnteredQuestion.SelectedNumberOfQuestions);
             }
-            //var quizModel = new QuizViewModel();
 
             userEnteredQuestion.SelectedNumberOfQuestions = userEnteredQuestion.SelectedNumberOfQuestions + 1;
 
