@@ -7,5 +7,6 @@ namespace PokeQuizWebAPI.Models.PlayerModels
 {
     public class PlayerScores
     {
+        public float AveragePercentOfPlayer { get; set; }
     }
 }
