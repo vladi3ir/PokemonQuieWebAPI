@@ -13,6 +13,8 @@ namespace PokeQuizWebAPI.Models.AccountViewModels
         [Display(Name = "Username")]
         public string Userrname { get; set; }
 
+      
+
 
         [Required]
         [EmailAddress]

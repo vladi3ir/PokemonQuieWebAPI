@@ -1,23 +1,37 @@
 ﻿using PokeQuizWebAPI.Models.QuizModels;
 using PokeQuizWebAPI.PokemonDAL;
+using System.Collections.Generic;
+using Identity.Dapper.Entities;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace PokeQuizWebAPI.PokemonServices
 {
     public class PokemonUserSQLService : IPokemonUserSQLService
     {
         private readonly IPokemonUserSQLStore _pokemonUserSQLStore;
+        private readonly UserManager<DapperIdentityUser> _userManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public PokemonUserSQLService(IPokemonUserSQLStore pokemonUserSQLStore)
+        public PokemonUserSQLService(IPokemonUserSQLStore pokemonUserSQLStore, UserManager<DapperIdentityUser> userManager, IHttpContextAccessor httpsContextAccessor)
         {
             _pokemonUserSQLStore = pokemonUserSQLStore;
+            _userManager = userManager;
+            _httpContextAccessor = httpsContextAccessor;
         }
 
 
-        public void CreatePokemonUserData(QuizAttemptResultsViewModel model)
+        public async  Task CreatePokemonUserData(QuizAttemptResultsViewModel model)
         {
 
-
+            
+            var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
             var dalModel = new PokemonDALModel();
+
+            dalModel.Username = user.UserName;
+            dalModel.FK_UsernameID = user.Id;
+
             dalModel.TotalAccumlatiedPoints += model.AmountCorrect;
             dalModel.TotalPossiblePoints += model.QuestionsAttempted;
             dalModel.RecentTotalCorrect = model.AmountCorrect;
@@ -26,29 +40,6 @@ namespace PokeQuizWebAPI.PokemonServices
 
             _pokemonUserSQLStore.UpdateUserStatusAtQuizEnd(dalModel);
 
-
-
-
-            //    //_starwarsStore.InsertNewPlanet(dalModel);
-
-            //    ////MAPPING
-            //    //var dalProducts = _starwarsStore.SelectAllPlanets();
-            //    //var planets = new List<Planet>();
-
-            //    //foreach (var dalProduct in dalProducts)
-            //    //{
-            //    //    var product = new Planet();
-            //    //    product.Name = dalProduct.LinkToURL;
-            //    //    planets.Add(product);
-            //    //}
-
-            //    //var StarwarsViewModel = new StarwarsViewModel();
-            //    //StarwarsViewModel.Planet = planets;
-
-            //    //return StarwarsViewModel;
-            //}
         }
-
-
     }
 }
