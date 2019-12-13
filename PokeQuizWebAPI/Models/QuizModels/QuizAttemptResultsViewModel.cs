@@ -12,4 +12,11 @@ namespace PokeQuizWebAPI.Models.QuizModels
         public double ScoreThisAttempt { get; set; }
 
     }
+
+    public class TotalAttemptResultsViewModel
+    {
+        public int TotalAmountCorrect { get; set; }
+        public int TotalQuestionsAttempted { get; set; }
+        public int TotalOverallScore { get; set; }
+    }
 }
