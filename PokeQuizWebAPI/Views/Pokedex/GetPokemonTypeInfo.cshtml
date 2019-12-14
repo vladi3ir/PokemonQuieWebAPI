@@ -1,0 +1,57 @@
+﻿@model PokeQuizWebAPI.Models.PokemonViewModels.TypeViewModel
+
+@{
+    ViewData["Title"] = "GetPokemonTypeInfo";
+}
+
+<h1>@Model.TypeName type information</h1>
+
+
+<div>
+    <label>@Model.TypeName takes double damage from the following types: </label>
+    @foreach (var type in Model.DoubleDamageFrom)
+    {
+        <a asp-controller="Pokedex" asp-action="GetPokemonTypeInfo" asp-route-name="@type.TypeName"><label>@type.TypeName</label></a>
+
+    }
+</div>
+<div>
+    <label>@Model.TypeName deals double damage to the following types: </label>
+    @foreach (var type in Model.DoubleDamageTo)
+    {
+        <a asp-controller="Pokedex" asp-action="GetPokemonTypeInfo" asp-route-name="@type.TypeName"><label>@type.TypeName</label></a>
+
+    }
+</div>
+<div>
+    <label>@Model.TypeName takes half damage from the following types: </label>
+    @foreach (var type in Model.HalfDamageFrom)
+    {
+        <a asp-controller="Pokedex" asp-action="GetPokemonTypeInfo" asp-route-name="@type.TypeName"><label>@type.TypeName</label></a>
+
+    }
+</div>
+<div>
+    <label>@Model.TypeName deals half damage to the following types: </label>
+    @foreach (var type in Model.HalfDamageTo)
+    {
+        <a asp-controller="Pokedex" asp-action="GetPokemonTypeInfo" asp-route-name="@type.TypeName"><label>@type.TypeName</label></a>
+
+    }
+</div>
+<div>
+    <label>@Model.TypeName takes no damage from the following types: </label>
+    @foreach (var type in Model.NoDamageFrom)
+    {
+        <a asp-controller="Pokedex" asp-action="GetPokemonTypeInfo" asp-route-name="@type.TypeName"><label>@type.TypeName</label></a>
+
+    }
+</div>
+<div>
+    <label>@Model.TypeName deals double damage to the following types: </label>
+    @foreach (var type in Model.DoubleDamageFrom)
+    {
+        <a asp-controller="Pokedex" asp-action="GetPokemonTypeInfo" asp-route-name="@type.TypeName"><label>@type.TypeName</label></a>
+
+    }
+</div>

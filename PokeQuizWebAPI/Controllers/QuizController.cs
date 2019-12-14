@@ -66,19 +66,5 @@ namespace PokeQuizWebAPI.Controllers
             var quizResultModel = new QuizAttemptResultsViewModel();
             return View(quizResultModel);
         }
-
-        public IActionResult SubmitPokemonId()
-        {
-            return View();
-        }
-
-        public async Task<IActionResult> GetPokemonDetails(int id)
-        {
-            var result = await _pokemonService.MapPokemonInfo(id);
-            return View(result);
-        }
-
-
-
     }
 }
