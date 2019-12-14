@@ -17,12 +17,15 @@ namespace PokeQuizWebAPI.PokemonDAL
         {
 
             var sql = $@"UPDATE UserScoreData 
-        SET   TotalAccumlatiedPoints  +=  @{nameof(dalModel.TotalAccumlatiedPoints)},
+        SET   Username                +=  @{nameof(dalModel.Username)},
+              FK_UsernameID           +=  @{nameof(dalModel.FK_UsernameID)},
+              TotalAccumlatiedPoints  +=  @{nameof(dalModel.TotalAccumlatiedPoints)},
               TotalPossiblePoints     +=  @{nameof(dalModel.TotalPossiblePoints)},
               QuizLength25Attempts    +=  @{nameof(dalModel.QuizLength25Attempts)},
               QuizLength50Attempts    +=  @{nameof(dalModel.QuizLength50Attempts)},
               QuizLength100Attempts   +=  @{nameof(dalModel.QuizLength100Attempts)},
               AverageScore            =   @{nameof(dalModel.AverageScore)},
+              OverallPercent          =   @{nameof(dalModel.OverallPercent)},
               RecentAmountOfQuestions =   @{nameof(dalModel.RecentAmountOfQuestions)},
               RecentTotalCorrect      =   @{nameof(dalModel.RecentTotalCorrect)},
         WHERE Username                =   @{nameof(dalModel.Username)}";
@@ -34,10 +37,10 @@ namespace PokeQuizWebAPI.PokemonDAL
             }
         }
 
- 
+
         public bool InsertUserStatusAtQuizEnd(PokemonDALModel dalModel)
-            {
-                var sql = $@"Insert INTO  
+        {
+            var sql = $@"Insert INTO  
                         UserScoreData( Username, 
                         FK_UsernameID,
                         TotalAccumlatiedPoints, 
@@ -66,12 +69,12 @@ namespace PokeQuizWebAPI.PokemonDAL
                             @{nameof(dalModel.WhichQuizTaken)},
                             @{nameof(dalModel.AttemptsPerQuiz)})";
 
-                using (var connection = new SqlConnection(_config.ConnectionString))
-                {
-                    var result = connection.Execute(sql, dalModel);
-                    return true;
-                }
+            using (var connection = new SqlConnection(_config.ConnectionString))
+            {
+                var result = connection.Execute(sql, dalModel);
+                return true;
             }
+
 
         public IEnumerable<float> SelectAllScores()
         {
@@ -95,5 +98,6 @@ namespace PokeQuizWebAPI.PokemonDAL
                 return result;
             }
         }
+
     }
 }
