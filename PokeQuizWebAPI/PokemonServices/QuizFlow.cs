@@ -14,6 +14,9 @@ namespace PokeQuizWebAPI.PokemonServices
         private readonly IPokemonService _pokemonService;
         private readonly IQuizCalculations _quizCalculations;
 
+        public int TotalQuetions => _session.GetInt32("questionsAttempted") ?? 0;
+        public int QuestionsCorrect => _session.GetInt32("amountCorrect") ?? 0;
+
         public QuizFlow
             (IHttpContextAccessor httpContextAccessor,
             IRandomizer randomizer,
@@ -30,10 +33,12 @@ namespace PokeQuizWebAPI.PokemonServices
             var quizModel = new QuizViewModel();
             var testSession = _session.GetString("answerList");
             var testSession2 = _session.GetString("userAnswer");
+
             if (testSession != null)
             {
                 quizModel.ListOfAnswers = JsonConvert.DeserializeObject<List<string>>(_session.GetString("answerList"));
             }
+
             if (pokemonName != null)
             {
                 if (testSession2 != null)
@@ -53,6 +58,7 @@ namespace PokeQuizWebAPI.PokemonServices
                 totalCorrectAnswers++;
                 _session.SetInt32("amountCorrect", totalCorrectAnswers);
             }
+
             if (userEnteredQuestion.SelectedNumberOfQuestions != 0)
             {
                 _session.SetInt32("questionsAttempted", userEnteredQuestion.SelectedNumberOfQuestions);
@@ -111,9 +117,5 @@ namespace PokeQuizWebAPI.PokemonServices
             _session.Clear();
             return quizResults;
         }
-
-
-        public int TotalQuetions => _session.GetInt32("questionsAttempted") ?? 0;
-        public int QuestionsCorrect => _session.GetInt32("amountCorrect") ?? 0;
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace PokeQuizWebAPI.PokemonDAL
+﻿namespace PokeQuizWebAPI.PokemonDAL
 {
     public interface IPokemonUserSQLStore
     {
@@ -11,5 +6,4 @@ namespace PokeQuizWebAPI.PokemonDAL
         bool InsertUserStatusAtQuizEnd(PokemonDALModel dalModel);
         PokemonDALModel GetUserScoreData(int userID);
     }
-
 }

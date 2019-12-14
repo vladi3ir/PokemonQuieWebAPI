@@ -36,7 +36,7 @@ namespace PokeQuizWebAPI.PokemonDAL
                 return true;
             }
         }
- 
+
         public bool InsertUserStatusAtQuizEnd(PokemonDALModel dalModel)
         {
             var sql = $@"Insert INTO  
@@ -77,16 +77,16 @@ namespace PokeQuizWebAPI.PokemonDAL
 
         public PokemonDALModel GetUserScoreData(int userID)
         {
-            var pokePlayer = new PokemonDALModel();
-            var sql = $@"
+
+            var sql = @"
                 SELECT *
                 FROM UserScoreData 
-                WHERE ";
-       
+                WHERE FK_UsernameID = @UserID";
+
             using (var connection = new SqlConnection(_config.ConnectionString))
             {
-                var result = connection.Execute(sql, pokePlayer);
-                return pokePlayer;
+                var result = connection.QueryFirstOrDefault<PokemonDALModel>(sql, new { UserID = userID });
+                return result;
             }
         }
 

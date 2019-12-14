@@ -17,7 +17,6 @@ using PokeQuizWebAPI.PokemonDAL;
 using PokeQuizWebAPI.PokemonServices;
 using System.IO;
 
-
 namespace PokeQuizWebAPI
 {
     public class Startup

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using PokeQuizWebAPI.Models.QuizModels;
 using PokeQuizWebAPI.PokemonDAL;
+using System;
 using System.Threading.Tasks;
 
 namespace PokeQuizWebAPI.PokemonServices
@@ -30,7 +31,7 @@ namespace PokeQuizWebAPI.PokemonServices
             {
                 pokePlayer.TotalAccumlatiedPoints += model.AmountCorrect;
                 pokePlayer.TotalPossiblePoints += model.QuestionsAttempted;
-                pokePlayer.OverallPercent = (pokePlayer.TotalAccumlatiedPoints / pokePlayer.TotalPossiblePoints);
+                pokePlayer.OverallPercent = Convert.ToSingle(pokePlayer.TotalAccumlatiedPoints) / Convert.ToSingle(pokePlayer.TotalPossiblePoints);
                 pokePlayer.RecentTotalCorrect = model.AmountCorrect;
                 pokePlayer.RecentAmountOfQuestions = model.QuestionsAttempted;
                 pokePlayer.WhichQuizTaken = model.QuestionsAttempted.ToString();
@@ -43,7 +44,7 @@ namespace PokeQuizWebAPI.PokemonServices
                 dalModel.FK_UsernameID = user.Id;
                 dalModel.TotalAccumlatiedPoints += model.AmountCorrect;
                 dalModel.TotalPossiblePoints += model.QuestionsAttempted;
-                dalModel.OverallPercent = (dalModel.TotalAccumlatiedPoints / dalModel.TotalPossiblePoints);
+                dalModel.OverallPercent = Convert.ToSingle(dalModel.TotalAccumlatiedPoints) / Convert.ToSingle(dalModel.TotalPossiblePoints);
                 dalModel.RecentTotalCorrect = model.AmountCorrect;
                 dalModel.RecentAmountOfQuestions = model.QuestionsAttempted;
                 dalModel.WhichQuizTaken = model.QuestionsAttempted.ToString();

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Newtonsoft.Json;
+using PokeQuizWebAPI.Models.PokemonViewModels;
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using PokeQuizWebAPI.Models.PokemonViewModels;
 
 namespace PokeQuizWebAPI.PokemonApiCall
 {
