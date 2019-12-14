@@ -1,10 +1,9 @@
-﻿using PokeQuizWebAPI.Models.QuizModels;
-using PokeQuizWebAPI.PokemonDAL;
-using System.Collections.Generic;
-using Identity.Dapper.Entities;
-using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
+﻿using Identity.Dapper.Entities;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using PokeQuizWebAPI.Models.QuizModels;
+using PokeQuizWebAPI.PokemonDAL;
+using System.Threading.Tasks;
 
 namespace PokeQuizWebAPI.PokemonServices
 {
@@ -21,25 +20,36 @@ namespace PokeQuizWebAPI.PokemonServices
             _httpContextAccessor = httpsContextAccessor;
         }
 
-
-        public async  Task CreatePokemonUserData(QuizAttemptResultsViewModel model)
+        public async Task CreatePokemonUserData(QuizAttemptResultsViewModel model)
         {
-
-            
             var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
             var dalModel = new PokemonDALModel();
+            var pokePlayer = _pokemonUserSQLStore.GetUserScoreData(user.Id);
 
-            dalModel.Username = user.UserName;
-            dalModel.FK_UsernameID = user.Id;
-
-            dalModel.TotalAccumlatiedPoints += model.AmountCorrect;
-            dalModel.TotalPossiblePoints += model.QuestionsAttempted;
-            dalModel.RecentTotalCorrect = model.AmountCorrect;
-            dalModel.RecentAmountOfQuestions = model.QuestionsAttempted;
-            dalModel.WhichQuizTaken = model.QuestionsAttempted.ToString();
-
-            _pokemonUserSQLStore.UpdateUserStatusAtQuizEnd(dalModel);
-
+            if (user.Id == pokePlayer.FK_UsernameID)
+            {
+                pokePlayer.TotalAccumlatiedPoints += model.AmountCorrect;
+                pokePlayer.TotalPossiblePoints += model.QuestionsAttempted;
+                pokePlayer.OverallPercent = (pokePlayer.TotalAccumlatiedPoints / pokePlayer.TotalPossiblePoints);
+                pokePlayer.RecentTotalCorrect = model.AmountCorrect;
+                pokePlayer.RecentAmountOfQuestions = model.QuestionsAttempted;
+                pokePlayer.WhichQuizTaken = model.QuestionsAttempted.ToString();
+                pokePlayer.AttemptsPerQuiz += 1;
+                _pokemonUserSQLStore.UpdateUserStatusAtQuizEnd(pokePlayer);
+            }
+            else
+            {
+                dalModel.Username = user.UserName;
+                dalModel.FK_UsernameID = user.Id;
+                dalModel.TotalAccumlatiedPoints += model.AmountCorrect;
+                dalModel.TotalPossiblePoints += model.QuestionsAttempted;
+                dalModel.OverallPercent = (dalModel.TotalAccumlatiedPoints / dalModel.TotalPossiblePoints);
+                dalModel.RecentTotalCorrect = model.AmountCorrect;
+                dalModel.RecentAmountOfQuestions = model.QuestionsAttempted;
+                dalModel.WhichQuizTaken = model.QuestionsAttempted.ToString();
+                dalModel.AttemptsPerQuiz += 1;
+                _pokemonUserSQLStore.InsertUserStatusAtQuizEnd(dalModel);
+            }
         }
     }
 }
