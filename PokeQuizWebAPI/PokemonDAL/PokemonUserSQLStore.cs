@@ -86,11 +86,11 @@ namespace PokeQuizWebAPI.PokemonDAL
 
         public float SelectPlayerAverageScore(int id)
         {
-            var sql = "SELECT AverageScore FROM UserScoreData Where FK_UsernameID @FK_UsernameID";
+            var sql = "SELECT AverageScore FROM UserScoreData Where FK_UsernameID = @FK_UsernameID";
 
             using (var connection = new SqlConnection(_config.ConnectionString))
             {
-                var result = connection.QueryFirstOrDefault<float>(sql, new { ProductID = id });
+                var result = connection.QueryFirstOrDefault<float>(sql, new { FK_UsernameID = id });
 
                 return result;
             }
