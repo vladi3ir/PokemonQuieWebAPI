@@ -75,7 +75,7 @@ namespace PokeQuizWebAPI.PokemonDAL
                 var result = connection.Execute(sql, dalModel);
                 return true;
             }
-
+        }
 
         public IEnumerable<float> SelectAllScores()
         {

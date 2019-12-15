@@ -2,22 +2,33 @@
 @{
     ViewData["Title"] = "QuizView";
 }
-<style>
 
-    img {
-        filter: brightness(0%);
-    }
-</style>
+
+@*Backgroud Color F81B15*@
 <h1>Who's That Pokemon</h1>
 
-<img src="@Model.CorrectPokemon.PokemonImageUrl"
-     width="50%" height="50%" alt="filter applied" />
+<img id="pokeID" src="@Model.CorrectPokemon.PokemonImageUrl"
+     width="50%" height="50%" />
 
 <form asp-controller="Quiz" asp-action="QuizView">
     @foreach (var pokeName in Model.QuizAnswers)
     {
         <input type="radio" name="pokemonName" value="@pokeName.PokemonName" /> @pokeName.PokemonName
     }
-<input type="submit" value="Submit" class="btn btn-primary btn-block" />
+    <input type="submit" value="Submit" class="btn btn-primary btn-block" onclick="userAnswer()" />
 </form>
 
+@*<style>
+        img {
+            filter: brightness(0%);
+        }
+    </style>
+
+    <script>
+        var delayInMilliseconds = 1000; //1 second
+
+        function userAnswer() {
+            document.getElementById("pokeID").style.filter = "brightness(100%)";
+        }, delayInMilliseconds);
+
+    </script>*@
