@@ -30,6 +30,7 @@ namespace PokeQuizWebAPI.PokemonDAL
                     AttemptsPerQuiz         =  @{nameof(dalModel.AttemptsPerQuiz)},
                 WHERE FK_UsernameID         =  @{nameof(dalModel.FK_UsernameID)}";
 
+
             using (var connection = new SqlConnection(_config.ConnectionString))
             {
                 var result = connection.Execute(sql, dalModel);
@@ -75,6 +76,7 @@ namespace PokeQuizWebAPI.PokemonDAL
             }
         }
 
+
         public PokemonDALModel GetUserScoreData(int userID)
         {
 
@@ -89,6 +91,7 @@ namespace PokeQuizWebAPI.PokemonDAL
                 return result;
             }
         }
+
 
     }
 }

@@ -11,4 +11,11 @@ namespace PokeQuizWebAPI.Models.QuizModels
         public List<string> SelectedAnswers = new List<string>();
 
     }
+
+    public class TotalAttemptResultsViewModel
+    {
+        public int TotalAmountCorrect { get; set; }
+        public int TotalQuestionsAttempted { get; set; }
+        public int TotalOverallScore { get; set; }
+    }
 }
