@@ -1,7 +1,4 @@
 ﻿using PokeQuizWebAPI.Models.PokemonViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PokeQuizWebAPI.PokemonServices
@@ -13,3 +10,4 @@ namespace PokeQuizWebAPI.PokemonServices
         Task<TypeViewModel> GetTypeInformation(string typeName);
     }
 }
+
