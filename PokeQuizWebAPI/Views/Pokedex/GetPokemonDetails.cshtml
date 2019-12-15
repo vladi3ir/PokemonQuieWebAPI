@@ -1,0 +1,54 @@
+﻿@model PokeQuizWebAPI.Models.PokemonViewModels.PokedexViewModel
+
+@{
+    ViewData["Title"] = "GetPokemonDetails";
+}
+
+<h1>Pokedex details on @Model.PokemonName</h1>
+
+<div >
+    <label>Pokemon Name: @Model.PokemonName </label><br />
+    <label>Pokemon ID Number: @Model.PokemonId</label><br />
+    <label>Pokemon Weight: @Model.PokemonWeight</label><br />
+    <label>Pokemon Heights: @Model.PokemonHeight</label><br />
+</div>
+
+<div>
+    <h3>Pokemon Type:</h3>
+    <label>Some pokemon are just one type other pokemon contain multiple types</label><br />
+    <label>To learn more about the listed pokemon type click on the type name</label><br />
+    <label>@Model.PokemonName constains the following types: 
+    @foreach (var type in Model.PokemonTypes)
+    {
+        <a asp-controller="Pokedex" asp-action="GetPokemonTypeInfo" asp-route-name="@type">@type</a>
+    } 
+    </label>
+</div>
+
+<div>
+    <h3>Pokemon Stats: </h3>
+    <table class="table">
+        <thead>
+            <tr>
+
+                @foreach (var stat in Model.PokemonStats)
+                {
+                    <th>@stat.StatName</th>
+                }
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var statNumber in Model.PokemonStats)
+            {
+                <td>@statNumber.PointsInStat </td>
+                
+            }
+        </tbody>
+    </table>
+</div>
+
+<img src="@Model.PokemonImageUrl"
+     width="50%" height="50%" alt="filter applied"  />
+
