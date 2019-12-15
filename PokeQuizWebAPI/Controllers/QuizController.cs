@@ -44,6 +44,7 @@ namespace PokeQuizWebAPI.Controllers
 
         public IActionResult SelectQuizDifficulty()
         {
+            
             var correctAnswers = 0;
             _session.SetInt32("amountCorrect", correctAnswers);
 

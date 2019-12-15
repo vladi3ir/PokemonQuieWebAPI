@@ -9,6 +9,8 @@ namespace PokeQuizWebAPI.PokemonDAL
     {
         bool UpdateUserStatusAtQuizEnd(PokemonDALModel dalModel);
         bool InsertUserStatusAtQuizEnd(PokemonDALModel dalModel);
-    }
+        IEnumerable<float> SelectAllScores();
+        float SelectPlayerAverageScore(int id);
 
+    }
 }

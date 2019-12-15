@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 
 
@@ -72,6 +73,29 @@ namespace PokeQuizWebAPI.PokemonDAL
             {
                 var result = connection.Execute(sql, dalModel);
                 return true;
+            }
+
+
+        public IEnumerable<float> SelectAllScores()
+        {
+            var sql = @"SELECT AverageScore FROM UserScoreData";
+
+            using (var connection = new SqlConnection(_config.ConnectionString)) //Idisposable
+            {
+                var result = connection.Query<float>(sql);
+                return result;
+            }
+        }
+
+        public float SelectPlayerAverageScore(int id)
+        {
+            var sql = "SELECT AverageScore FROM UserScoreData Where FK_UsernameID = @FK_UsernameID";
+
+            using (var connection = new SqlConnection(_config.ConnectionString))
+            {
+                var result = connection.QueryFirstOrDefault<float>(sql, new { FK_UsernameID = id });
+
+                return result;
             }
         }
 
