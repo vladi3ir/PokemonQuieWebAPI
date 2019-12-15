@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PokeQuizWebAPI.CalculationsService;
+using PokeQuizWebAPI.Models;
+using PokeQuizWebAPI.Models.PokemonViewModels;
 using PokeQuizWebAPI.Models.QuizModels;
 using PokeQuizWebAPI.PokemonServices;
 using System.Collections.Generic;
@@ -42,12 +44,14 @@ namespace PokeQuizWebAPI.Controllers
 
         public IActionResult SelectQuizDifficulty()
         {
+            
             var correctAnswers = 0;
             _session.SetInt32("amountCorrect", correctAnswers);
 
             var viewModel = new QuizDifficultyViewModel();
             return View(viewModel);
         }
+
         public async Task<IActionResult> QuizView(QuizDifficultyViewModel userEnteredQuestion, string pokemonName) //feeding into eds
         {
             QuizViewModel quizModel = await _quizFlow.SetupQuiz(userEnteredQuestion, pokemonName);
@@ -70,10 +74,17 @@ namespace PokeQuizWebAPI.Controllers
             return View();
         }
 
-        public async Task<IActionResult> GetPokemonDetails(int id)
+        public async Task<IActionResult> GetPokemonDetails(int id )
         {
-            var result = await _pokemonService.MapPokemonInfo(id);
-            return View(result);
+            if ((id > 0) && (id <= 807))
+            {
+                var result = await _pokemonService.MapPokemonInfo(id);
+                return View(result);
+            }
+            else
+            {
+                return View("Error", new InvalidPokeIDViewModel() { ErrorMessage = "Sorry, That is not a valid ID"});
+            }
         }
 
 

@@ -14,12 +14,17 @@ namespace PokeQuizWebAPI.PokemonApiCall
         {
             using (var httpClient = new HttpClient { BaseAddress = new Uri("https://pokeapi.co") })
             {
-                
-                var json = await httpClient.GetStringAsync($"/api/v2/pokemon-form/{id}");
+                if (id > 0)
+                {
+                    var json = await httpClient.GetStringAsync($"/api/v2/pokemon-form/{id}");
 
 
-                return JsonConvert.DeserializeObject<AllPokemonInfo>(json);
-
+                    return JsonConvert.DeserializeObject<AllPokemonInfo>(json);
+                }
+                else
+                {
+                    throw new Exception($"{id} is not a valid ID. Please enter a number from 1 to 807");
+                }
 
             }
         }
