@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using PokeQuizWebAPI.Models.PokemonViewModels;
+﻿using PokeQuizWebAPI.Models.PokemonViewModels;
 using PokeQuizWebAPI.PokemonApiCall;
+using System.Threading.Tasks;
 
 namespace PokeQuizWebAPI.PokemonServices
 {
@@ -15,10 +12,11 @@ namespace PokeQuizWebAPI.PokemonServices
         {
             _pokemonApi = pokemonApi;
         }
+
         public async Task<PokemonResponse> MapPokemonInfo(int id)
         {
-            var apiPokemon =  await _pokemonApi.GetPokemon(id);
-            var pokemon = new PokemonResponse();
+            var apiPokemon = await _pokemonApi.GetPokemon(id);
+            var pokemon = new PokemonResponse() { };
 
             pokemon.PokemonName = apiPokemon.name;
             pokemon.PokemonId = apiPokemon.id;

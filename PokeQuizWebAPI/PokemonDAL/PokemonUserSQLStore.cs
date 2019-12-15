@@ -13,22 +13,24 @@ namespace PokeQuizWebAPI.PokemonDAL
         {
             _config = config.Database;
         }
+
         public bool UpdateUserStatusAtQuizEnd(PokemonDALModel dalModel)
         {
 
-            var sql = $@"UPDATE UserScoreData 
-        SET   Username                +=  @{nameof(dalModel.Username)},
-              FK_UsernameID           +=  @{nameof(dalModel.FK_UsernameID)},
-              TotalAccumlatiedPoints  +=  @{nameof(dalModel.TotalAccumlatiedPoints)},
-              TotalPossiblePoints     +=  @{nameof(dalModel.TotalPossiblePoints)},
-              QuizLength25Attempts    +=  @{nameof(dalModel.QuizLength25Attempts)},
-              QuizLength50Attempts    +=  @{nameof(dalModel.QuizLength50Attempts)},
-              QuizLength100Attempts   +=  @{nameof(dalModel.QuizLength100Attempts)},
-              AverageScore            =   @{nameof(dalModel.AverageScore)},
-              OverallPercent          =   @{nameof(dalModel.OverallPercent)},
-              RecentAmountOfQuestions =   @{nameof(dalModel.RecentAmountOfQuestions)},
-              RecentTotalCorrect      =   @{nameof(dalModel.RecentTotalCorrect)},
-        WHERE Username                =   @{nameof(dalModel.Username)}";
+            var sql = $@"
+                UPDATE UserScoreData 
+                SET   
+                    TotalAccumlatiedPoints  =  @{nameof(dalModel.TotalAccumlatiedPoints)},
+                    TotalPossiblePoints     =  @{nameof(dalModel.TotalPossiblePoints)},
+                    QuizLength25Attempts    =  @{nameof(dalModel.QuizLength25Attempts)},
+                    QuizLength50Attempts    =  @{nameof(dalModel.QuizLength50Attempts)},
+                    QuizLength100Attempts   =  @{nameof(dalModel.QuizLength100Attempts)},
+                    OverallPercent          =  @{nameof(dalModel.OverallPercent)},
+                    RecentAmountOfQuestions =  @{nameof(dalModel.RecentAmountOfQuestions)},
+                    RecentTotalCorrect      =  @{nameof(dalModel.RecentTotalCorrect)},
+                    AttemptsPerQuiz         =  @{nameof(dalModel.AttemptsPerQuiz)},
+                WHERE FK_UsernameID         =  @{nameof(dalModel.FK_UsernameID)}";
+
 
             using (var connection = new SqlConnection(_config.ConnectionString))
             {
@@ -36,7 +38,6 @@ namespace PokeQuizWebAPI.PokemonDAL
                 return true;
             }
         }
-
 
         public bool InsertUserStatusAtQuizEnd(PokemonDALModel dalModel)
         {
@@ -98,6 +99,23 @@ namespace PokeQuizWebAPI.PokemonDAL
                 return result;
             }
         }
+
+
+        public PokemonDALModel GetUserScoreData(int userID)
+        {
+
+            var sql = @"
+                SELECT *
+                FROM UserScoreData 
+                WHERE FK_UsernameID = @UserID";
+
+            using (var connection = new SqlConnection(_config.ConnectionString))
+            {
+                var result = connection.QueryFirstOrDefault<PokemonDALModel>(sql, new { UserID = userID });
+                return result;
+            }
+        }
+
 
     }
 }

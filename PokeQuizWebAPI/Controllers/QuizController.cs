@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using PokeQuizWebAPI.CalculationsService;
 using PokeQuizWebAPI.Models;
 using PokeQuizWebAPI.Models.PokemonViewModels;
 using PokeQuizWebAPI.Models.QuizModels;
 using PokeQuizWebAPI.PokemonServices;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PokeQuizWebAPI.Controllers
@@ -22,12 +20,11 @@ namespace PokeQuizWebAPI.Controllers
 
         public QuizController
         (IPokemonService pokemonService,
-         IRandomizer randomizer,
-         IHttpContextAccessor httpContextAccessor,
-         IQuizCalculations quizCalculations,
-         IQuizFlow quizFlow,
-         IPokemonUserSQLService pokemonUserSQLService)
-
+            IRandomizer randomizer,
+            IHttpContextAccessor httpContextAccessor,
+            IQuizCalculations quizCalculations,
+            IQuizFlow quizFlow,
+            IPokemonUserSQLService pokemonUserSQLService)
         {
             _pokemonService = pokemonService;
             _randomizer = randomizer;
@@ -57,14 +54,13 @@ namespace PokeQuizWebAPI.Controllers
             QuizViewModel quizModel = await _quizFlow.SetupQuiz(userEnteredQuestion, pokemonName);
             if (quizModel.PokemonAnswers.Count == 0)
             {
-
                 var quizResults = await _quizFlow.SetQuizResults();
                 _pokemonUserSQLService.CreatePokemonUserData(quizResults);
-                return View("QuizResults",quizResults);
-
+                return View("QuizResults", quizResults);
             }
             return View(quizModel);
         }
+
         public IActionResult QuizResults()
         {
             var quizResultModel = new QuizAttemptResultsViewModel();
@@ -88,8 +84,5 @@ namespace PokeQuizWebAPI.Controllers
                 return View("Error", new InvalidPokeIDViewModel() { ErrorMessage = "Sorry, That is not a valid ID"});
             }
         }
-
-
-
     }
 }
