@@ -53,11 +53,9 @@ namespace PokeQuizWebAPI.Controllers
             QuizViewModel quizModel = await _quizFlow.SetupQuiz(userEnteredQuestion, pokemonName);
             if (quizModel.PokemonAnswers.Count == 0)
             {
-
                 var quizResults = await _quizFlow.SetQuizResults();
                 _pokemonUserSQLService.CreatePokemonUserData(quizResults);
                 return View("QuizResults",quizResults);
-
             }
             return View(quizModel);
         }

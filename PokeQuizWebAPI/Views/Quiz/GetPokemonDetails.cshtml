@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "GetPokemonDetails";
 }
-<html>
 
 <head>
     <meta charset="UTF-8">
@@ -14,7 +13,6 @@
 
 <h1>GetPokemonDetails</h1>
 
-<div>
     <link rel="stylesheet" href="site.css">
 
     <h4>PokemonResponse</h4>
@@ -40,17 +38,12 @@
 
         </dd>
     </dl>
-</div>
+
+
+
+
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+    <img src="@Model.PokemonImageUrl">
+    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png">
 </div>
-
-
-
-<body>
-    <img src="@Model.PokemonImageUrl"
-         width="100%" height="auto" alt="filter applied" />
-</body>
-</html>
 
