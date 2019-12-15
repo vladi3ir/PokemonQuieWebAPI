@@ -1,4 +1,4 @@
-﻿using Identity.Dapper.Entities;
+using Identity.Dapper.Entities;
 using PokeQuizWebAPI.PokemonDAL;
 using System;
 using System.Collections.Generic;
