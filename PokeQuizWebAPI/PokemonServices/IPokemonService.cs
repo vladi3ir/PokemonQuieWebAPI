@@ -8,3 +8,4 @@ namespace PokeQuizWebAPI.PokemonServices
         Task<PokemonResponse> MapPokemonInfo(int id);
     }
 }
+

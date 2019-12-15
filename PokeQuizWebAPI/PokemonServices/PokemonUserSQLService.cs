@@ -21,6 +21,7 @@ namespace PokeQuizWebAPI.PokemonServices
             _httpContextAccessor = httpsContextAccessor;
         }
 
+
         public async Task CreatePokemonUserData(QuizAttemptResultsViewModel model)
         {
             var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
@@ -51,6 +52,19 @@ namespace PokeQuizWebAPI.PokemonServices
                 dalModel.AttemptsPerQuiz += 1;
                 _pokemonUserSQLStore.InsertUserStatusAtQuizEnd(dalModel);
             }
+        }
+
+        public async Task<float> ReturnPlayersAveragePercent()
+        {
+            var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+            var userAverageScore = _pokemonUserSQLStore.SelectPlayerAverageScore(user.Id);
+            return userAverageScore;
+        }
+
+        public IEnumerable<float> SelectAllScores()
+        {
+            var averageScores = _pokemonUserSQLStore.SelectAllScores();
+            return averageScores;
         }
     }
 }
