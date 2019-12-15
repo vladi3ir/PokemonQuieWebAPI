@@ -1,9 +1,6 @@
-﻿using Identity.Dapper.Entities;
-using PokeQuizWebAPI.PokemonDAL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
+﻿using System;
+
 
 namespace PokeQuizWebAPI.CalculationsService
 {
@@ -26,9 +23,9 @@ namespace PokeQuizWebAPI.CalculationsService
             return percentScoreThisAttempt;
         }
 
-        public int PrecentileFinder(DapperIdentityUser user)
+        public int PrecentileFinder()
         {
-            var currentUserScore = _pokemonUserSQLStore.SelectPlayerAverageScore(user.Id);
+            var currentUserScore = _pokemonUserSQLStore.ReturnPlayersAveragePercent();
             var listOfUsers = _pokemonUserSQLStore.SelectAllScores();
             int numOfBottomPrecentile = 0;
             var userCount = listOfUsers.Count();

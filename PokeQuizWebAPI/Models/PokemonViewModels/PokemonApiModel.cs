@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace PokeQuizWebAPI.Models.PokemonViewModels
+﻿namespace PokeQuizWebAPI.Models.PokemonViewModels
 {
-
     public class AllPokemonInfo
     {
         public string form_name { get; set; }
@@ -43,8 +37,6 @@ namespace PokeQuizWebAPI.Models.PokemonViewModels
         public string url { get; set; }
     }
 
-
-
     /// <summary>
     /// This was added to pull the full count of pokemon from the API
     /// </summary>
@@ -62,6 +54,4 @@ namespace PokeQuizWebAPI.Models.PokemonViewModels
         public string name { get; set; }
         public string url { get; set; }
     }
-
-
 }
