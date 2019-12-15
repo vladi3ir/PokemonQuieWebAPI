@@ -1,4 +1,6 @@
-﻿namespace PokeQuizWebAPI.PokemonDAL
+﻿using System.Collections.Generic;
+
+namespace PokeQuizWebAPI.PokemonDAL
 {
     public interface IPokemonUserSQLStore
     {

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using PokeQuizWebAPI.Models.QuizModels;
 using PokeQuizWebAPI.PokemonDAL;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PokeQuizWebAPI.PokemonServices
