@@ -14,6 +14,8 @@ namespace PokeQuizWebAPI.Models.PokemonViewModels
         public List<string> PokemonTypes = new List<string>();
         public int PokemonHeight { get; set; }
         public List<PokemonStat> PokemonStats = new List<PokemonStat>();
+        public string HaveEvolutionChain { get; set; }
+        public List<PokemonResponse> EvolutionChain = new List<PokemonResponse>();
     }
 }
 
