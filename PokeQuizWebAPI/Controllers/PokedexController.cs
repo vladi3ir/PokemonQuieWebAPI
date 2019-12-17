@@ -11,9 +11,12 @@ namespace PokeQuizWebAPI.Controllers
     public class PokedexController : Controller
     {
         private readonly IPokemonService _pokemonService;
-        public PokedexController(IPokemonService pokemonService)
+        private readonly IQuizFlow _quizFlow;
+
+        public PokedexController(IPokemonService pokemonService, IQuizFlow quizFlow)
         {
             _pokemonService = pokemonService;
+            _quizFlow = quizFlow;
         }
         public IActionResult SubmitPokemonId()
         {
@@ -21,6 +24,7 @@ namespace PokeQuizWebAPI.Controllers
         }
         public async Task<IActionResult> GetPokemonDetails(int id)
         {
+            _quizFlow.ResetSession(); //user may have left quiz screen so reset session
             var pokedexViewModel = new PokedexViewModel();
             pokedexViewModel = await _pokemonService.GetAdditionalPokemonInfo(id);
 

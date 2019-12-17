@@ -42,8 +42,7 @@ namespace PokeQuizWebAPI.Controllers
 
         public IActionResult SelectQuizDifficulty()
         {
-            var correctAnswers = 0;
-            _session.SetInt32("amountCorrect", correctAnswers);
+            _quizFlow.ResetSession(); //user may have less the screen so reset quiz session
 
             var viewModel = new QuizDifficultyViewModel();
             return View(viewModel);

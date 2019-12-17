@@ -52,3 +52,31 @@
 <img src="@Model.PokemonImageUrl"
      width="50%" height="50%" alt="filter applied"  />
 
+
+<div>
+    <h3>Evolution Chart</h3>
+   
+    <table class="table">
+        <thead>
+            <tr>
+
+                @foreach (var pokemon in Model.EvolutionChain)
+                {
+                    <th>@pokemon.PokemonName</th>
+                }
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var image in Model.EvolutionChain)
+            {
+            <td><img src="@image.PokemonImageUrl"
+              /> </td>
+
+        }
+            </tbody>
+        </table>
+    </div>
+</div>
+

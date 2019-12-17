@@ -11,12 +11,52 @@ namespace PokeQuizWebAPI.PokemonApiCall
 {
     public class PokemonApi : IPokemonApi
     {
+        public async Task<EvolutionApiModel> DetermineIfPokemonHasEvolutionChain(int id)
+        {
+            using (var httpClient = new HttpClient { BaseAddress = new Uri("https://pokeapi.co") })
+            {
+
+                var json = await httpClient.GetStringAsync($"/api/v2/pokemon-species/{id}/");
+
+                return JsonConvert.DeserializeObject<EvolutionApiModel>(json);
+
+
+            }
+        }
+
+        public async Task<EvolutionDetailsApiModel> GetEvolutionChain(string chainUrl)
+        {
+            string uriHalf = chainUrl.Substring(0, 18);
+            string secondHalf = chainUrl.Substring(18);
+            using (var httpClient = new HttpClient { BaseAddress = new Uri($"{uriHalf}") })
+            {
+
+                var json = await httpClient.GetStringAsync($"{secondHalf}");
+
+                return JsonConvert.DeserializeObject<EvolutionDetailsApiModel>(json);
+
+
+            }
+        }
+
         public async Task<FullPokemonInfo> GetMorePokemonInfo(int id)
         {
             using (var httpClient = new HttpClient { BaseAddress = new Uri("https://pokeapi.co") })
             {
 
                 var json = await httpClient.GetStringAsync($"/api/v2/pokemon/{id}");
+
+                return JsonConvert.DeserializeObject<FullPokemonInfo>(json);
+
+
+            }
+        }
+        public async Task<FullPokemonInfo> GetMorePokemonInfo(string name)
+        {
+            using (var httpClient = new HttpClient { BaseAddress = new Uri("https://pokeapi.co") })
+            {
+
+                var json = await httpClient.GetStringAsync($"/api/v2/pokemon/{name}");
 
                 return JsonConvert.DeserializeObject<FullPokemonInfo>(json);
 
