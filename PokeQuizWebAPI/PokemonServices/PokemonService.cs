@@ -26,6 +26,36 @@ namespace PokeQuizWebAPI.PokemonServices
             pokemon.PokemonImageUrl = apiPokemonInfo.sprites.front_default;
             pokemon.PokemonHeight = apiPokemonInfo.height;
 
+            var apiModel =  await _pokemonApi.DetermineIfPokemonHasEvolutionChain(id);
+            pokemon.HaveEvolutionChain = apiModel.evolution_chain.url;
+            if (pokemon.HaveEvolutionChain != null)
+            {
+                var apiChain = await _pokemonApi.GetEvolutionChain(pokemon.HaveEvolutionChain);
+
+                var pokemonEvolutionBaby = new PokemonResponse();
+                pokemonEvolutionBaby.PokemonName = apiChain.chain.species.name;
+                var apiImageUrlCall = await _pokemonApi.GetMorePokemonInfo(pokemonEvolutionBaby.PokemonName);
+                pokemonEvolutionBaby.PokemonImageUrl = apiImageUrlCall.sprites.front_default;
+
+                
+                var pokemonEvolution2 = new PokemonResponse();
+                pokemonEvolution2.PokemonName = apiChain.chain.evolves_to[0].species.name;
+                var apiImageUrlCall2 = await _pokemonApi.GetMorePokemonInfo(pokemonEvolution2.PokemonName);
+                pokemonEvolution2.PokemonImageUrl = apiImageUrlCall2.sprites.front_default;
+                pokemon.EvolutionChain.Add(pokemonEvolutionBaby);
+                pokemon.EvolutionChain.Add(pokemonEvolution2);
+
+                if (apiChain.chain.evolves_to[0].evolves_to[0].species.name != null)
+                {
+                    var pokemonEvolution3 = new PokemonResponse();
+                    pokemonEvolution3.PokemonName = apiChain.chain.evolves_to[0].evolves_to[0].species.name;
+                    var apiImageUrlCall3 = await _pokemonApi.GetMorePokemonInfo(pokemonEvolution3.PokemonName);
+                    pokemonEvolution3.PokemonImageUrl = apiImageUrlCall3.sprites.front_default;
+                    pokemon.EvolutionChain.Add(pokemonEvolution3);
+                }
+               
+            }
+
             foreach (var stat in apiPokemonInfo.stats)
             {
                 var pokemonStat = new PokemonStat();

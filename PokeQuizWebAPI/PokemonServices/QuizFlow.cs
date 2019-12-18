@@ -121,5 +121,10 @@ namespace PokeQuizWebAPI.PokemonServices
             _session.Clear();
             return quizResults;
         }
+
+        public void ResetSession()
+        {
+            _session.Clear();
+        }
     }
 }
