@@ -14,6 +14,7 @@ namespace PokeQuizWebAPI.Models.QuizModels
         public List<PokemonResponse> QuizAnswers = new List<PokemonResponse>();
         public List<string> ListOfAnswers = new List<string>();
         public List<string> UserAnswers = new List<string>();
+        public int QuestionsCorrect { get; set; }
     }
 }
 

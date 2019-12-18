@@ -1,34 +1,59 @@
 ﻿@model PokeQuizWebAPI.Models.QuizModels.QuizViewModel
+
 @{
     ViewData["Title"] = "QuizView";
 }
 
 
 @*Backgroud Color F81B15*@
+
 <h1>Who's That Pokemon</h1>
+<div>
+    <center>
+        <img id="pokeID" src="@Model.CorrectPokemon.PokemonImageUrl"
+             width="50%" height="50%" />
 
-<img id="pokeID" src="@Model.CorrectPokemon.PokemonImageUrl"
-     width="50%" height="50%" />
+        <form asp-controller="Quiz" asp-action="QuizView" method="post" id="pokemon-form">
+            @foreach (var pokeName in Model.QuizAnswers)
+            {
+                <input type="radio" name="pokemonName" data-is-complete="@pokeName.IsCorrect" value="@pokeName.PokemonName" /> @pokeName.PokemonName
+            }
+            <input type="button" value="Submit" id="UserSubmit" class="btn btn-primary btn-lg" onclick="userAnswer()" />
+        </form>
 
-<form asp-controller="Quiz" asp-action="QuizView">
-    @foreach (var pokeName in Model.QuizAnswers)
-    {
-        <input type="radio" name="pokemonName" value="@pokeName.PokemonName" /> @pokeName.PokemonName
+        <p>You answered @Model.QuestionsCorrect Pokemon Correctly</p>
+    </center>
+
+</div>
+<style>
+    .pokemon-form{padding: 0px 10px 30px 10px}
+    img {
+        filter: brightness(0%);
     }
-    <input type="submit" value="Submit" class="btn btn-primary btn-block" onclick="userAnswer()" />
-</form>
+</style>
 
-@*<style>
-        img {
-            filter: brightness(0%);
+<script>
+
+    var delayInMilliseconds = 10000; //1 second
+
+    function userAnswer() {
+
+        var pokemonFormChildren = document.getElementById("pokemon-form").children;
+
+        for (var i = 0; i < pokemonFormChildren.length; i++) {
+            var inputChild = pokemonFormChildren[i];
+
+            var isComplete = inputChild.dataset.isComplete;
+
+            if (isComplete && inputChild.checked) {
+                document.getElementById("pokeID").style.filter = "brightness(100%)";
+            }
+
+
+            // Do stuff
         }
-    </style>
 
-    <script>
-        var delayInMilliseconds = 1000; //1 second
+        setTimeout(() => console.log("tee hee"), delayInMilliseconds);
+    }
 
-        function userAnswer() {
-            document.getElementById("pokeID").style.filter = "brightness(100%)";
-        }, delayInMilliseconds);
-
-    </script>*@
+</script>
