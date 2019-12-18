@@ -4,11 +4,12 @@
     ViewData["Title"] = "QuizView";
 }
 
-
 @*Backgroud Color F81B15*@
 
 <h1>Who's That Pokemon</h1>
 <div>
+    <h1 id="text">You answered @Model.QuestionsCorrect Pokemon Correctly</h1>
+
     <img id="pokeID" src="@Model.CorrectPokemon.PokemonImageUrl"
          width="50%" height="50%" />
 
@@ -19,13 +20,13 @@
         }
         <br />
         <br />
-        <br />
         <div>
             <input type="submit" value="Submit" id="UserSubmit" class="btn-lg" onclick="userAnswer()" />
         </div>
+        <br />
+        <br />
     </form>
 
-    <p id="text">You answered @Model.QuestionsCorrect Pokemon Correctly</p>
 
 </div>
 
@@ -34,7 +35,6 @@
         font-weight: bold;
     }
 
-<<<<<<< HEAD
     img {
         filter: brightness(0%);
     }
@@ -43,13 +43,6 @@
 <script>
 
     var delayInMilliseconds = 1000; //1 second
-=======
-<style>
-        img {
-            filter: brightness(0%);
-        }
-    </style>
->>>>>>> 9e54ce0c57745d094cdb951df9e5264df94d748d
 
     function userAnswer() {
 
@@ -71,8 +64,5 @@
         setTimeout(() => console.log("tee hee"), delayInMilliseconds);
     }
 
-<<<<<<< HEAD
+
 </script>
-=======
-    </script>
->>>>>>> 9e54ce0c57745d094cdb951df9e5264df94d748d

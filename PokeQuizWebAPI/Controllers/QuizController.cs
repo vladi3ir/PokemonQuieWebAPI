@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using PokeQuizWebAPI.CalculationsService;
 using PokeQuizWebAPI.Models.QuizModels;
 using PokeQuizWebAPI.PokemonServices;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PokeQuizWebAPI.Controllers
@@ -55,7 +53,7 @@ namespace PokeQuizWebAPI.Controllers
 
                 var quizResults = await _quizFlow.SetQuizResults();
                 _pokemonUserSQLService.CreatePokemonUserData(quizResults);
-                return View("QuizResults",quizResults);
+                return View("QuizResults", quizResults);
 
             }
             return View(quizModel);
