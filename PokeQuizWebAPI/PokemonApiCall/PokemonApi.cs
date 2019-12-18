@@ -32,6 +32,7 @@ namespace PokeQuizWebAPI.PokemonApiCall
             {
 
                 var json = await httpClient.GetStringAsync($"{secondHalf}");
+                
 
                 return JsonConvert.DeserializeObject<EvolutionDetailsApiModel>(json);
 
@@ -75,6 +76,18 @@ namespace PokeQuizWebAPI.PokemonApiCall
                 return JsonConvert.DeserializeObject<AllPokemonInfo>(json);
 
 
+            }
+        }
+
+        public async Task<GenerationPokemonListApiCall> GetPokemonByGeneration(int id)
+        {
+            
+            using (var httpClient = new HttpClient { BaseAddress = new Uri("https://pokeapi.co") })
+            {
+
+                var json = await httpClient.GetStringAsync($"/api/v2/generation/{id}");
+
+                return JsonConvert.DeserializeObject<GenerationPokemonListApiCall>(json);
             }
         }
 

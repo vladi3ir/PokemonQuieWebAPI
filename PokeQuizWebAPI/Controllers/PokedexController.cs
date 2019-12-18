@@ -18,13 +18,22 @@ namespace PokeQuizWebAPI.Controllers
             _pokemonService = pokemonService;
             _quizFlow = quizFlow;
         }
-        public IActionResult SubmitPokemonId()
+        public async Task<IActionResult> SubmitPokemonId()
         {
-            return View();
+            var pokemonModel = await _pokemonService.GetPokemonByGeneration();
+            return View(pokemonModel);
         }
-        public async Task<IActionResult> GetPokemonDetails(int id)
+        public async Task<IActionResult> GetPokemonDetails(int id, SelectPokemonViewModel userPokemon)
         {
             _quizFlow.ResetSession(); //user may have left quiz screen so reset session
+            if (userPokemon.PokemonSelected != null)
+            {
+               
+                var pokedexViewModelString = await _pokemonService.GetAdditionalPokemonInfo(userPokemon.PokemonSelected);
+
+                return View(pokedexViewModelString);
+            }
+           
             var pokedexViewModel = new PokedexViewModel();
             pokedexViewModel = await _pokemonService.GetAdditionalPokemonInfo(id);
 

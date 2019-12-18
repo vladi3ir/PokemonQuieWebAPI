@@ -26,35 +26,35 @@ namespace PokeQuizWebAPI.PokemonServices
             pokemon.PokemonImageUrl = apiPokemonInfo.sprites.front_default;
             pokemon.PokemonHeight = apiPokemonInfo.height;
 
-            var apiModel =  await _pokemonApi.DetermineIfPokemonHasEvolutionChain(id);
-            pokemon.HaveEvolutionChain = apiModel.evolution_chain.url;
-            if (pokemon.HaveEvolutionChain != null)
-            {
-                var apiChain = await _pokemonApi.GetEvolutionChain(pokemon.HaveEvolutionChain);
+            //var apiModel =  await _pokemonApi.DetermineIfPokemonHasEvolutionChain(id);
+            //pokemon.HaveEvolutionChain = apiModel.evolution_chain.url;
+            //if (pokemon.HaveEvolutionChain != null)
+            //{
+            //    var apiChain = await _pokemonApi.GetEvolutionChain(pokemon.HaveEvolutionChain);
 
-                var pokemonEvolutionBaby = new PokemonResponse();
-                pokemonEvolutionBaby.PokemonName = apiChain.chain.species.name;
-                var apiImageUrlCall = await _pokemonApi.GetMorePokemonInfo(pokemonEvolutionBaby.PokemonName);
-                pokemonEvolutionBaby.PokemonImageUrl = apiImageUrlCall.sprites.front_default;
+            //    var pokemonEvolutionBaby = new PokemonResponse();
+            //    pokemonEvolutionBaby.PokemonName = apiChain.chain.species.name;
+            //    var apiImageUrlCall = await _pokemonApi.GetMorePokemonInfo(pokemonEvolutionBaby.PokemonName);
+            //    pokemonEvolutionBaby.PokemonImageUrl = apiImageUrlCall.sprites.front_default;
 
                 
-                var pokemonEvolution2 = new PokemonResponse();
-                pokemonEvolution2.PokemonName = apiChain.chain.evolves_to[0].species.name;
-                var apiImageUrlCall2 = await _pokemonApi.GetMorePokemonInfo(pokemonEvolution2.PokemonName);
-                pokemonEvolution2.PokemonImageUrl = apiImageUrlCall2.sprites.front_default;
-                pokemon.EvolutionChain.Add(pokemonEvolutionBaby);
-                pokemon.EvolutionChain.Add(pokemonEvolution2);
+            //    var pokemonEvolution2 = new PokemonResponse();
+            //    pokemonEvolution2.PokemonName = apiChain.chain.evolves_to[0].species.name;
+            //    var apiImageUrlCall2 = await _pokemonApi.GetMorePokemonInfo(pokemonEvolution2.PokemonName);
+            //    pokemonEvolution2.PokemonImageUrl = apiImageUrlCall2.sprites.front_default;
+            //    pokemon.EvolutionChain.Add(pokemonEvolutionBaby);
+            //    pokemon.EvolutionChain.Add(pokemonEvolution2);
 
-                if (apiChain.chain.evolves_to[0].evolves_to[0].species.name != null)
-                {
-                    var pokemonEvolution3 = new PokemonResponse();
-                    pokemonEvolution3.PokemonName = apiChain.chain.evolves_to[0].evolves_to[0].species.name;
-                    var apiImageUrlCall3 = await _pokemonApi.GetMorePokemonInfo(pokemonEvolution3.PokemonName);
-                    pokemonEvolution3.PokemonImageUrl = apiImageUrlCall3.sprites.front_default;
-                    pokemon.EvolutionChain.Add(pokemonEvolution3);
-                }
+            //    if (apiChain.chain.evolves_to[0].evolves_to.Length != 0)
+            //    {
+            //        var pokemonEvolution3 = new PokemonResponse();
+            //        //pokemonEvolution3.PokemonName = apiChain.chain.evolves_to[0].evolves_to[0].species.name;
+            //        var apiImageUrlCall3 = await _pokemonApi.GetMorePokemonInfo(pokemonEvolution3.PokemonName);
+            //        pokemonEvolution3.PokemonImageUrl = apiImageUrlCall3.sprites.front_default;
+            //        pokemon.EvolutionChain.Add(pokemonEvolution3);
+            //    }
                
-            }
+            //}
 
             foreach (var stat in apiPokemonInfo.stats)
             {
@@ -69,6 +69,142 @@ namespace PokeQuizWebAPI.PokemonServices
                 pokemon.PokemonTypes.Add(type.type.name);
             }
             return pokemon;
+        }
+
+        public async Task<PokedexViewModel> GetAdditionalPokemonInfo(string name)
+        {
+            var apiPokemonInfo = await _pokemonApi.GetMorePokemonInfo(name);
+            var pokemon = new PokedexViewModel();
+            pokemon.PokemonWeight = apiPokemonInfo.weight;
+            pokemon.PokemonName = apiPokemonInfo.name;
+            pokemon.PokemonId = apiPokemonInfo.id;
+            pokemon.PokemonImageUrl = apiPokemonInfo.sprites.front_default;
+            pokemon.PokemonHeight = apiPokemonInfo.height;
+
+            //var apiModel = await _pokemonApi.DetermineIfPokemonHasEvolutionChain(apiPokemonInfo.id);
+            //pokemon.HaveEvolutionChain = apiModel.evolution_chain.url;
+            //if (pokemon.HaveEvolutionChain != null)
+            //{
+            //    var apiChain = await _pokemonApi.GetEvolutionChain(pokemon.HaveEvolutionChain);
+            //    var evolutions = apiChain.chain.evolves_to.Length;
+            //    if (evolutions > 1)
+            //    {
+
+            //    }
+
+            //    var pokemonEvolutionBaby = new PokemonResponse();
+            //    pokemonEvolutionBaby.PokemonName = apiChain.chain.species.name;
+            //    var apiImageUrlCall = await _pokemonApi.GetMorePokemonInfo(pokemonEvolutionBaby.PokemonName);
+            //    pokemonEvolutionBaby.PokemonImageUrl = apiImageUrlCall.sprites.front_default;
+
+
+            //    var pokemonEvolution2 = new PokemonResponse();
+            //    pokemonEvolution2.PokemonName = apiChain.chain.evolves_to[0].species.name;
+            //    var apiImageUrlCall2 = await _pokemonApi.GetMorePokemonInfo(pokemonEvolution2.PokemonName);
+            //    pokemonEvolution2.PokemonImageUrl = apiImageUrlCall2.sprites.front_default;
+            //    pokemon.EvolutionChain.Add(pokemonEvolutionBaby);
+            //    pokemon.EvolutionChain.Add(pokemonEvolution2);
+
+            //    if (apiChain.chain.evolves_to[0].evolves_to.Length != 0)
+            //    {
+            //        var pokemonEvolution3 = new PokemonResponse();
+            //        pokemonEvolution3.PokemonName = apiChain.chain.evolves_to[0].evolves_to[0].species.name;
+            //        var apiImageUrlCall3 = await _pokemonApi.GetMorePokemonInfo(pokemonEvolution3.PokemonName);
+            //        pokemonEvolution3.PokemonImageUrl = apiImageUrlCall3.sprites.front_default;
+            //        pokemon.EvolutionChain.Add(pokemonEvolution3);
+            //    }
+
+            //}
+
+            foreach (var stat in apiPokemonInfo.stats)
+            {
+                var pokemonStat = new PokemonStat();
+                pokemonStat.StatName = stat.stat.name;
+                pokemonStat.PointsInStat = stat.base_stat;
+                pokemon.PokemonStats.Add(pokemonStat);
+            }
+
+            foreach (var type in apiPokemonInfo.types)
+            {
+                pokemon.PokemonTypes.Add(type.type.name);
+            }
+            return pokemon;
+        }
+
+        public async Task<SelectPokemonViewModel> GetPokemonByGeneration()
+        {
+            int generationTracker = 1;
+            var pokemonList = new SelectPokemonViewModel();
+            while (generationTracker < 8)
+            {
+                var api = await _pokemonApi.GetPokemonByGeneration(generationTracker);
+
+                if (generationTracker == 1)
+                {
+                    foreach (var pokemon in api.pokemon_species)
+                    {
+                        var pokemonToList = new PokemonResponse();
+                        pokemonToList.PokemonName = pokemon.name;
+                        pokemonList.Gen1.Add(pokemonToList);
+                    }
+                }
+                else if (generationTracker == 2)
+                {
+                    foreach (var pokemon in api.pokemon_species)
+                    {
+                        var pokemonToList = new PokemonResponse();
+                        pokemonToList.PokemonName = pokemon.name;
+                        pokemonList.Gen2.Add(pokemonToList);
+                    }
+                }
+                else if (generationTracker == 3)
+                {
+                    foreach (var pokemon in api.pokemon_species)
+                    {
+                        var pokemonToList = new PokemonResponse();
+                        pokemonToList.PokemonName = pokemon.name;
+                        pokemonList.Gen3.Add(pokemonToList);
+                    }
+                }
+                else if (generationTracker == 4)
+                {
+                    foreach (var pokemon in api.pokemon_species)
+                    {
+                        var pokemonToList = new PokemonResponse();
+                        pokemonToList.PokemonName = pokemon.name;
+                        pokemonList.Gen4.Add(pokemonToList);
+                    }
+                }
+                else if (generationTracker == 5)
+                {
+                    foreach (var pokemon in api.pokemon_species)
+                    {
+                        var pokemonToList = new PokemonResponse();
+                        pokemonToList.PokemonName = pokemon.name;
+                        pokemonList.Gen5.Add(pokemonToList);
+                    }
+                }
+                else if (generationTracker == 6)
+                {
+                    foreach (var pokemon in api.pokemon_species)
+                    {
+                        var pokemonToList = new PokemonResponse();
+                        pokemonToList.PokemonName = pokemon.name;
+                        pokemonList.Gen6.Add(pokemonToList);
+                    }
+                }
+                else if (generationTracker == 7)
+                {
+                    foreach (var pokemon in api.pokemon_species)
+                    {
+                        var pokemonToList = new PokemonResponse();
+                        pokemonToList.PokemonName = pokemon.name;
+                        pokemonList.Gen7.Add(pokemonToList);
+                    }
+                }
+                generationTracker++;
+            }
+            return pokemonList;
         }
 
         public async Task<TypeViewModel> GetTypeInformation(string typeName)

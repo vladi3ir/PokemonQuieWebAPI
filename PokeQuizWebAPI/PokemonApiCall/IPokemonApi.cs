@@ -16,5 +16,6 @@ namespace PokeQuizWebAPI.PokemonApiCall
         Task<TypeFullApiModel> GetPokemonTypeInfo(string typeName);
         Task<EvolutionApiModel> DetermineIfPokemonHasEvolutionChain(int id);
         Task<EvolutionDetailsApiModel> GetEvolutionChain(string chainUrl);
+        Task<GenerationPokemonListApiCall> GetPokemonByGeneration(int id);
     }
 }
