@@ -11,7 +11,7 @@ namespace PokeQuizWebAPI.PokemonServices
         {
             var aditionalFillerAnswers = new List<int>();
             var rand = new Random();
-            var pokemonListLength = 807;
+            var pokemonListLength = 802;
 
             for (int i = 0; i < amountOfPossibleAnswers - 1; i++)
             {
@@ -34,7 +34,7 @@ namespace PokeQuizWebAPI.PokemonServices
         {
             var answerStack = new Stack<int>();
             var rand = new Random();
-            var pokemonListLength = 807;
+            var pokemonListLength = 802;
 
             for (int i = 0; i < quizLength; i++)
             {
