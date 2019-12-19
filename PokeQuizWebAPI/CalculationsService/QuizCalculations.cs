@@ -3,6 +3,7 @@ using Identity.Dapper.Entities;
 using PokeQuizWebAPI.PokemonDAL;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PokeQuizWebAPI.CalculationsService
 {
@@ -25,29 +26,49 @@ namespace PokeQuizWebAPI.CalculationsService
             return percentScoreThisAttempt;
         }
 
-        public int PrecentileFinder(DapperIdentityUser user)
+        public double PrecentileFinder(int userID)
         {
-            var currentUserScore = _pokemonUserSQLStore.SelectPlayerAverageScore(user.Id);
+            var currentUserScore = _pokemonUserSQLStore.SelectPlayerAverageScore(userID);
             var listOfUsers = _pokemonUserSQLStore.SelectAllScores();
-            int numOfBottomPrecentile = 0;
+            var numOfBottomPrecentile = 0;
             var userCount = listOfUsers.Count();
+
 
             foreach (var allPlayersScores in listOfUsers)
             {
-                 if (allPlayersScores < currentUserScore) 
+                
+                    if (allPlayersScores < currentUserScore)
+
                     {
                         numOfBottomPrecentile += 1;
                     }
                 
             }
 
-            var userPrecentile = (1 - (numOfBottomPrecentile / userCount));
+            var userPrecentile = (1d - (Convert.ToDouble(numOfBottomPrecentile) / Convert.ToDouble(userCount)));
 
             return userPrecentile;
-
-
         }
 
-      
+        public int RankFinder(int userID)
+        {
+            var currentUserScore = _pokemonUserSQLStore.SelectPlayerAverageScore(userID);
+            var listOfUsers = _pokemonUserSQLStore.SelectAllScores();
+            var numOfBottomPrecentile = 0;
+            var userCount = listOfUsers.Count();
+
+            foreach (var allPlayersScores in listOfUsers)
+            {
+                {
+                    if (allPlayersScores < currentUserScore)
+                    {
+                        numOfBottomPrecentile += 1;
+                    }
+                }
+            }
+            return userCount-numOfBottomPrecentile;
+        }
+
+
     }
 }

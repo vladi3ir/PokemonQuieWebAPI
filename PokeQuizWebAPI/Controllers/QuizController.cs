@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using PokeQuizWebAPI.CalculationsService;
 using PokeQuizWebAPI.Models.QuizModels;
 using PokeQuizWebAPI.PokemonServices;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PokeQuizWebAPI.Controllers
@@ -49,14 +47,12 @@ namespace PokeQuizWebAPI.Controllers
         }
         public async Task<IActionResult> QuizView(QuizDifficultyViewModel userEnteredQuestion, string pokemonName) //feeding into eds
         {
-            QuizViewModel quizModel = await _quizFlow.SetupQuiz(userEnteredQuestion, pokemonName);
+            var quizModel = await _quizFlow.SetupQuiz(userEnteredQuestion, pokemonName);
             if (quizModel.PokemonAnswers.Count == 0)
             {
-
                 var quizResults = await _quizFlow.SetQuizResults();
-                _pokemonUserSQLService.CreatePokemonUserData(quizResults);
+                await _pokemonUserSQLService.CreatePokemonUserData(quizResults);
                 return View("QuizResults",quizResults);
-
             }
             return View(quizModel);
         }

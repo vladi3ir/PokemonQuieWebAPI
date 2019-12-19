@@ -26,8 +26,8 @@ namespace PokeQuizWebAPI.PokemonApiCall
 
         public async Task<EvolutionDetailsApiModel> GetEvolutionChain(string chainUrl)
         {
-            string uriHalf = chainUrl.Substring(0, 18);
-            string secondHalf = chainUrl.Substring(18);
+            var uriHalf = chainUrl.Substring(0, 18);
+            var secondHalf = chainUrl.Substring(18);
             using (var httpClient = new HttpClient { BaseAddress = new Uri($"{uriHalf}") })
             {
 

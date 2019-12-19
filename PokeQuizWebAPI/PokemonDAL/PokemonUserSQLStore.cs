@@ -90,11 +90,11 @@ namespace PokeQuizWebAPI.PokemonDAL
 
         public float SelectPlayerAverageScore(int id)
         {
-            var sql = "SELECT AverageScore FROM UserScoreData Where FK_UsernameID = @FK_UsernameID";
+            var sql = "SELECT AverageScore FROM UserScoreData Where FK_UsernameID = @UserID";
 
             using (var connection = new SqlConnection(_config.ConnectionString))
             {
-                var result = connection.QueryFirstOrDefault<float>(sql, new { FK_UsernameID = id });
+                var result = connection.QueryFirstOrDefault<float>(sql, new { UserID = id });
 
                 return result;
             }
@@ -107,15 +107,28 @@ namespace PokeQuizWebAPI.PokemonDAL
             var sql = @"
                 SELECT *
                 FROM UserScoreData 
-                WHERE FK_UsernameID = @UserID";
+                WHERE FK_UsernameID = @ActiveUserID";
 
             using (var connection = new SqlConnection(_config.ConnectionString))
             {
-                var result = connection.QueryFirstOrDefault<PokemonDALModel>(sql, new { UserID = userID });
+                var result = connection.QueryFirstOrDefault<PokemonDALModel>(sql, new { ActiveUserID = userID });
                 return result;
             }
         }
 
+        public IEnumerable<string> SelectOrderedPlayers(int topNumb)
+        {
+            var sql = @"
+                SELECT Top (@TopNums) Username
+                FROM UserScoreData 
+                ORDER BY OverallPercent DESC";
 
+            using (var connection = new SqlConnection(_config.ConnectionString))
+            {
+                var result = connection.Query<string>(sql, new { TopNums = topNumb});
+                return result;
+            }
+
+        }
     }
 }

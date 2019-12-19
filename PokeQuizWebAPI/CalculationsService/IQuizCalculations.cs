@@ -5,6 +5,7 @@ namespace PokeQuizWebAPI.CalculationsService
     public interface IQuizCalculations
     {
         double CalculateCurrentAttemptScore(int questionsCorrect, int questionsAttempted);
-        int PrecentileFinder(DapperIdentityUser user);
+        double PrecentileFinder (int userID);
+        int RankFinder(int userID);
     }
 }
