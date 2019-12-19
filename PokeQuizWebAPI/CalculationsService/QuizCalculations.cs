@@ -36,13 +36,10 @@ namespace PokeQuizWebAPI.CalculationsService
 
             foreach (var allPlayersScores in listOfUsers)
             {
-                
                     if (allPlayersScores < currentUserScore)
-
                     {
                         numOfBottomPrecentile += 1;
                     }
-                
             }
 
             var userPrecentile = (1d - (Convert.ToDouble(numOfBottomPrecentile) / Convert.ToDouble(userCount)));
