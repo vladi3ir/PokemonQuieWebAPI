@@ -7,11 +7,11 @@ namespace PokeQuizWebAPI.PokemonDAL
 {
     public class PokemonUserSQLStore : IPokemonUserSQLStore
     {
-        private readonly Database _config;
+        private readonly PokemonConfig _config;
 
         public PokemonUserSQLStore(PokemonConfig config)
         {
-            _config = config.Database;
+            _config = config;
         }
 
         public bool UpdateUserStatusAtQuizEnd(PokemonDALModel dalModel)
@@ -28,7 +28,7 @@ namespace PokeQuizWebAPI.PokemonDAL
                     OverallPercent          =  @{nameof(dalModel.OverallPercent)},
                     RecentAmountOfQuestions =  @{nameof(dalModel.RecentAmountOfQuestions)},
                     RecentTotalCorrect      =  @{nameof(dalModel.RecentTotalCorrect)},
-                    AttemptsPerQuiz         =  @{nameof(dalModel.AttemptsPerQuiz)},
+                    AttemptsPerQuiz         =  @{nameof(dalModel.AttemptsPerQuiz)}
                 WHERE FK_UsernameID         =  @{nameof(dalModel.FK_UsernameID)}";
 
 
@@ -125,7 +125,7 @@ namespace PokeQuizWebAPI.PokemonDAL
 
             using (var connection = new SqlConnection(_config.ConnectionString))
             {
-                var result = connection.Query<string>(sql, new { TopNums = topNumb});
+                var result = connection.Query<string>(sql, new { TopNums = topNumb });
                 return result;
             }
 

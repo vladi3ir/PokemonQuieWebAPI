@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PokeQuizWebAPI.CalculationsService;
 using PokeQuizWebAPI.Models.QuizModels;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace PokeQuizWebAPI.Controllers
 {
+    [Authorize]
     public class QuizController : Controller
     {
         private readonly IPokemonService _pokemonService;
@@ -56,6 +58,7 @@ namespace PokeQuizWebAPI.Controllers
             }
             return View(quizModel);
         }
+
         public IActionResult QuizResults()
         {
             var quizResultModel = new QuizAttemptResultsViewModel();
