@@ -6,7 +6,6 @@ namespace PokeQuizWebAPI.PokemonDAL
     {
         bool UpdateUserStatusAtQuizEnd(PokemonDALModel dalModel);
         bool InsertUserStatusAtQuizEnd(PokemonDALModel dalModel);
-
         PokemonDALModel GetUserScoreData(int userID);
         IEnumerable<float> SelectAllScores();
         float SelectPlayerAverageScore(int id);

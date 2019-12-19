@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace PokeQuizWebAPI.Controllers
 {
-    [Authorize]
     public class QuizController : Controller
     {
         private readonly IPokemonService _pokemonService;
@@ -54,7 +53,7 @@ namespace PokeQuizWebAPI.Controllers
             {
                 var quizResults = await _quizFlow.SetQuizResults();
                 await _pokemonUserSQLService.CreatePokemonUserData(quizResults);
-                return View("QuizResults",quizResults);
+                return View("QuizResults", quizResults);
             }
             return View(quizModel);
         }

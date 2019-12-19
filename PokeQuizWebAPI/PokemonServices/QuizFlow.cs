@@ -29,6 +29,7 @@ namespace PokeQuizWebAPI.PokemonServices
         public async Task<QuizViewModel> SetupQuiz(QuizDifficultyViewModel userEnteredQuestion, string pokemonName)
         {
             var quizModel = new QuizViewModel();
+
             var testSession = _session.GetString("answerList");
             var testSession2 = _session.GetString("userAnswer");
 
