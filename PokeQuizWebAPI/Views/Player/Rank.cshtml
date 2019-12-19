@@ -1,0 +1,32 @@
+﻿@model PokeQuizWebAPI.Models.PlayerModels.PlayerRankModel
+
+@{
+    ViewData["Title"] = "Rank";
+}
+<h1>
+    @Html.DisplayNameFor(model => model.Username)
+</h1>
+
+<h3>Rank: @Model.PlayerRank</h3>
+<h3>Percentile: @Model.PlayerPerrcentile</h3>
+<h3>Overall Score: @Model.AverageScore %</h3>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TopTenPlayers)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var player in Model.TopTenPlayers)
+        {
+            <tr>
+                <td>@player</td>
+            </tr>
+        }
+    </tbody>
+</table>
