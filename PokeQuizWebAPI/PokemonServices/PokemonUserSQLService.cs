@@ -29,7 +29,7 @@ namespace PokeQuizWebAPI.PokemonServices
             var dalModel = new PokemonDALModel();
             var pokePlayer = _pokemonUserSQLStore.GetUserScoreData(user.Id);
 
-            if (user.Id == pokePlayer.FK_UsernameID)
+            if (user.Id == pokePlayer?.FK_UsernameID)
             {
                 pokePlayer.TotalAccumlatiedPoints += model.AmountCorrect;
                 pokePlayer.TotalPossiblePoints += model.QuestionsAttempted;

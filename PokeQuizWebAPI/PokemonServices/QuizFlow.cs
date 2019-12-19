@@ -14,8 +14,6 @@ namespace PokeQuizWebAPI.PokemonServices
         private readonly IPokemonService _pokemonService;
         private readonly IQuizCalculations _quizCalculations;
 
-        public int TotalQuetions => _session.GetInt32("questionsAttempted") ?? 0;
-        public int QuestionsCorrect => _session.GetInt32("amountCorrect") ?? 0;
 
         public QuizFlow
             (IHttpContextAccessor httpContextAccessor,
@@ -55,7 +53,7 @@ namespace PokeQuizWebAPI.PokemonServices
             if (pokemonName == _session.GetString("pokemonAnswer") & pokemonName != null)
             {
                 totalCorrectAnswers++;
-               
+
                 _session.SetInt32("amountCorrect", totalCorrectAnswers);
             }
             quizModel.QuestionsCorrect = _session.GetInt32("amountCorrect").GetValueOrDefault();

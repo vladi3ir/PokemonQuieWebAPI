@@ -8,7 +8,6 @@ namespace PokeQuizWebAPI.PokemonServices
         Task<QuizViewModel> SetupQuiz(QuizDifficultyViewModel userEnteredQuestion, string pokemonName);
         Task<QuizAttemptResultsViewModel> SetQuizResults();
         void ResetSession();
-        int TotalQuetions { get; }
-        int QuestionsCorrect { get; }
+
     }
 }
