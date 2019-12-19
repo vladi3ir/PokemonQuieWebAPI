@@ -54,10 +54,11 @@ namespace PokeQuizWebAPI.PokemonServices
             var totalCorrectAnswers = _session.GetInt32("amountCorrect").GetValueOrDefault();
             if (pokemonName == _session.GetString("pokemonAnswer") & pokemonName != null)
             {
-
                 totalCorrectAnswers++;
+               
                 _session.SetInt32("amountCorrect", totalCorrectAnswers);
             }
+            quizModel.QuestionsCorrect = _session.GetInt32("amountCorrect").GetValueOrDefault();
 
             if (userEnteredQuestion.SelectedNumberOfQuestions != 0)
             {
@@ -78,6 +79,7 @@ namespace PokeQuizWebAPI.PokemonServices
                 quizModel.PokemonAnswers = JsonConvert.DeserializeObject<Stack<int>>(_session.GetString("pokemonStack"));
             }
             quizModel.CorrectPokemon = await _pokemonService.MapPokemonInfo(quizModel.PokemonAnswers.Peek());
+            quizModel.CorrectPokemon.IsCorrect = true;
             var listOfWrongAnswers = _randomizer.RandomizeAditionalPokemon(quizModel.PokemonAnswers.Peek(), 4);
             quizModel.WrongAnswer1 = await _pokemonService.MapPokemonInfo(listOfWrongAnswers[0]);
             quizModel.WrongAnswer2 = await _pokemonService.MapPokemonInfo(listOfWrongAnswers[1]);
@@ -96,6 +98,8 @@ namespace PokeQuizWebAPI.PokemonServices
 
             _session.SetString("pokemonStack", storeStackIntoString);
             _session.SetString("answerList", storeAnswerListIntoString);
+
+
 
             quizModel.QuizAnswers.Add(quizModel.CorrectPokemon);
             quizModel.QuizAnswers.Add(quizModel.WrongAnswer1);

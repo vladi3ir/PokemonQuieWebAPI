@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using PokeQuizWebAPI.CalculationsService;
 using PokeQuizWebAPI.Models.QuizModels;
 using PokeQuizWebAPI.PokemonServices;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PokeQuizWebAPI.Controllers
