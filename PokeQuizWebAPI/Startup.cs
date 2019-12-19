@@ -38,7 +38,7 @@ namespace PokeQuizWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+           
             var config = new ConfigurationBuilder()
            .SetBasePath(Directory.GetCurrentDirectory())
            .AddJsonFile("appsettings.json", false, true)
@@ -74,12 +74,15 @@ namespace PokeQuizWebAPI
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
+           
+            
             services.AddSession(options =>
-                {
-                    options.Cookie.HttpOnly = true;
-                    options.Cookie.IsEssential = true;
-                });
+            {
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
+            services.AddDistributedMemoryCache();
 
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
@@ -100,9 +103,10 @@ namespace PokeQuizWebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-          //  if (env.IsDevelopment())
+           
+            //  if (env.IsDevelopment())
             //{
-                app.UseDeveloperExceptionPage();
+            app.UseDeveloperExceptionPage();
             //}
             //else
             //{
@@ -113,9 +117,11 @@ namespace PokeQuizWebAPI
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSession();
             app.UseCookiePolicy();
             app.UseAuthentication();
-            app.UseSession();
+
+            
 
             app.UseMvc(routes =>
             {
