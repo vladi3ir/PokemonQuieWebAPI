@@ -10,6 +10,6 @@ namespace PokeQuizWebAPI.PokemonDAL
         PokemonDALModel GetUserScoreData(int userID);
         IEnumerable<float> SelectAllScores();
         float SelectPlayerAverageScore(int id);
-
+        IEnumerable<string> SelectOrderedPlayers(int topNumb);
     }
 }

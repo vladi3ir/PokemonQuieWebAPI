@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PokeQuizWebAPI.AccountService;
 using PokeQuizWebAPI.CalculationsService;
+using PokeQuizWebAPI.PlayerServices;
 using PokeQuizWebAPI.PokemonApiCall;
 using PokeQuizWebAPI.PokemonDAL;
 using PokeQuizWebAPI.PokemonServices;
@@ -86,6 +87,7 @@ namespace PokeQuizWebAPI
             services.AddSingleton<IPokemonApi, PokemonApi>();
             services.AddSingleton<IRandomizer, Randomizer>();
             services.AddSingleton<IQuizFlow, QuizFlow>();
+            services.AddTransient<IPlayerService, PlayerService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IPokemonUserSQLService, PokemonUserSQLService>();
             services.AddSingleton<IPokemonUserSQLStore, PokemonUserSQLStore>();
