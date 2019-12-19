@@ -42,7 +42,7 @@
 
             @foreach (var statNumber in Model.PokemonStats)
             {
-                <td>@statNumber.PointsInStat </td>
+                <td >@statNumber.PointsInStat </td>
                 
             }
         </tbody>
@@ -53,7 +53,7 @@
      width="50%" height="50%" alt="filter applied"  />
 
 
-<div>
+@*<div>
     <h3>Evolution Chart</h3>
    
     <table class="table">
@@ -62,7 +62,7 @@
 
                 @foreach (var pokemon in Model.EvolutionChain)
                 {
-                    <th>@pokemon.PokemonName</th>
+                <th><a asp-controller="Pokedex" asp-action="GetPokemonDetails" asp-route-name="@pokemon.PokemonName">@pokemon.PokemonName</a></th>
                 }
 
             </tr>
@@ -71,10 +71,17 @@
 
             @foreach (var image in Model.EvolutionChain)
             {
-            <td><img src="@image.PokemonImageUrl"/> </td>
-        }
+
+            <td><img src="@image.PokemonImageUrl"
+              /> 
+            </td>
+
+              }
             </tbody>
         </table>
-</div>
+    </div>
+</div>*@
+
+
 
 
