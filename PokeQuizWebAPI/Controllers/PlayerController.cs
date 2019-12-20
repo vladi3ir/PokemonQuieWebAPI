@@ -11,7 +11,6 @@ namespace PokeQuizWebAPI.Controllers
     {
         private readonly ISession _session;
         private readonly IPokemonUserSQLService _pokemonUserSQLService;
-        
         private readonly IPlayerService _playerService;
 
         public PlayerController(IHttpContextAccessor httpContextAccessor, IPokemonUserSQLService pokemonUserSQLService, IPlayerService playerService)

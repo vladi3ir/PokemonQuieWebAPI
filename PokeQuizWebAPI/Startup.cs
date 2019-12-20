@@ -16,7 +16,6 @@ using PokeQuizWebAPI.PlayerServices;
 using PokeQuizWebAPI.PokemonApiCall;
 using PokeQuizWebAPI.PokemonDAL;
 using PokeQuizWebAPI.PokemonServices;
-using System;
 using System.IO;
 
 namespace PokeQuizWebAPI
@@ -39,6 +38,7 @@ namespace PokeQuizWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+           
             var config = new ConfigurationBuilder()
            .SetBasePath(Directory.GetCurrentDirectory())
            .AddJsonFile("appsettings.json", false, true)
@@ -74,15 +74,15 @@ namespace PokeQuizWebAPI
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDistributedMemoryCache();
+           
+            
             services.AddSession(options =>
-                {
-                    // Set a short timeout for easy testing.
-                    options.IdleTimeout = TimeSpan.FromSeconds(10);
-                    options.Cookie.HttpOnly = true;
-                    // Make the session cookie essential
-                    options.Cookie.IsEssential = true;
-                });
+            {
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
+            services.AddDistributedMemoryCache();
 
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
@@ -97,33 +97,31 @@ namespace PokeQuizWebAPI
             services.AddSingleton<IQuizCalculations, QuizCalculations>();
 
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseHttpsRedirection();
-
+           
             //  if (env.IsDevelopment())
             //{
             app.UseDeveloperExceptionPage();
             //}
             //else
             //{
-            //   app.UseExceptionHandler("/Home/Error");
-            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-            //  app.UseHsts();
+             //   app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+              //  app.UseHsts();
             //}
 
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSession();
             app.UseCookiePolicy();
             app.UseAuthentication();
-            //app.UseAuthorization();
-            app.UseSession();
+
+            
 
             app.UseMvc(routes =>
             {

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace PokeQuizWebAPI.Controllers
 {
+    [Authorize]
     public class QuizController : Controller
     {
         private readonly IPokemonService _pokemonService;

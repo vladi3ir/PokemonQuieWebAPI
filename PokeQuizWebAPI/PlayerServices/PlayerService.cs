@@ -29,12 +29,18 @@ namespace PokeQuizWebAPI.PlayerServices
             var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
             var playerRank = new PlayerRankModel
             {
-                PlayerPerrcentile = _quizCalculations.PrecentileFinder(user.Id),
+                PlayerPerrcentile = _quizCalculations.PrecentileFinder(user.Id) * 100d,
                 PlayerRank = _quizCalculations.RankFinder(user.Id),
-                AverageScore = _pokemonUserSQLStore.SelectPlayerAverageScore(user.Id),
-                TopTenPlayers = SelectTopTenPlayers(),
+                AverageScore = _pokemonUserSQLStore.SelectPlayerAverageScore(user.Id) * 100d,
+                TopTenPlayers = new List<string> { },
                 Username = user.UserName
             };
+            
+            foreach (var player in SelectTopTenPlayers())
+            {
+                playerRank.TopTenPlayers.Add(player);
+            }
+            
             return playerRank;
         }
 
