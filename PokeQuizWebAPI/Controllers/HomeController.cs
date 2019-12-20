@@ -13,17 +13,17 @@ namespace PokeQuizWebAPI.Controllers
         private readonly ISession _session;
         private readonly IQuizFlow _quizFlow;
 
-        public HomeController(IHttpContextAccessor httpContextAccessor,IQuizFlow quizFlow)
+        public HomeController(IHttpContextAccessor httpContextAccessor, IQuizFlow quizFlow)
         {
             _session = httpContextAccessor.HttpContext.Session;
             _quizFlow = quizFlow;
         }
         public async Task<IActionResult> Index()
         {
-            
+
             var model = new QuizDifficultyViewModel();
             model.SelectedNumberOfQuestions = 2;
-            string name = " ";
+            string name = null;
             var models = await _quizFlow.SetupQuiz(model, name);
             return View();
         }
